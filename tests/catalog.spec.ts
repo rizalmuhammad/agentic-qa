@@ -43,6 +43,19 @@ test.describe('Catalog', () => {
     await expect(cards.first()).toContainText('Aurora Laptop');
   });
 
+  test('REQ-CAT-05 a search with no matches shows an empty state and no error', async ({ page }) => {
+    await login(page);
+    await expect(page.getByTestId('product-card')).toHaveCount(6);
+
+    await page.getByTestId('search-input').fill('zzzz-no-such-product');
+
+    await expect(page.getByTestId('product-card')).toHaveCount(0);
+    await expect(page.getByText('No products found.')).toBeVisible();
+    // The error branch renders "Could not load products: ..."; it must not be on
+    // screen after a successful search that simply matched nothing.
+    await expect(page.getByText(/Could not load products/)).toHaveCount(0);
+  });
+
   test('REQ-CAT-04 unknown product id returns 404 via API', async ({ request }) => {
     const response = await request.get('/api/products/p999');
 

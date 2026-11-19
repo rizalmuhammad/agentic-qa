@@ -15,6 +15,7 @@ Every test title in `tests/` names one of these ids, so an assertion can always 
 - **REQ-CAT-02** Searching by product name filters the list to matching products.
 - **REQ-CAT-03** Search is case-insensitive.
 - **REQ-CAT-04** An unknown product id returns 404.
+- **REQ-CAT-05** A search with no matches shows an empty state and does not error.
 
 ## Cart
 
@@ -23,6 +24,7 @@ Every test title in `tests/` names one of these ids, so an assertion can always 
 - **REQ-CART-03** Removing the last item empties the cart and resets totals to $0.00.
 - **REQ-CART-04** A quantity of zero or below is rejected and the cart is unchanged.
 - **REQ-CART-05** An out-of-stock product cannot be added.
+- **REQ-CART-06** A signed-in user's cart survives a page reload.
 
 ## Checkout
 
@@ -31,3 +33,7 @@ Every test title in `tests/` names one of these ids, so an assertion can always 
 - **REQ-CHK-03** Checkout with an empty cart returns 400 and creates no order.
 - **REQ-CHK-04** A placed order appears in the order history with the same total.
 - **REQ-CHK-05** The discount is capped at the subtotal, so a total never goes below zero.
+
+## Orders
+
+- **REQ-ORD-01** Order history lists the newest order first.
