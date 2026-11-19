@@ -4,7 +4,7 @@ One row per week. A snapshot is written after the weekly run, not during it. Emp
 
 | Date | Phase | Gate | Metric | What went wrong |
 |---|---|---|---|---|
-| 2026-11-19 | Phase 0 - Foundation | not yet run | flaky rate: TBD | none yet |
+| 2026-11-19 | Phase 0 - Foundation | passed: 18 tests green, 4 consecutive green CI runs on the same commit, 15 seeded-bug checks green under SEEDED_BUGS=all | 33 tests, 18 active + 15 seeded-bug checks, 0 skipped without a reason, 0 retries | First CI run failed for two real reasons: parallel workers raced on the shared in-memory reset, and the login helper did not wait for the token. Both were fixed, not retried. |
 
 ## How to read this
 
