@@ -29,7 +29,7 @@ Every AI-assisted change passes these three checks before it is committed. The o
 - [ ] The assertion is exact (`$192.24`), not truthy or structural.
 - [ ] The assertion waits on the app through a web-first assertion.
 - [ ] A failure message would name the requirement.
-- [ ] Nothing is asserted that the requirement never asked for.
+- [ ] Nothing is asserted that the requirement never asked for. If something is, that is a scope question for a human: escalate it, do not reject it.
 
 **Reject if:** the assertion would still pass with the behaviour broken. Say which break it misses.
 

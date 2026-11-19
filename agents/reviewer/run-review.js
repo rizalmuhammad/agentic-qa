@@ -8,6 +8,14 @@
  * compared. The label is the ground truth for each planted case, so accuracy
  * here is a real number rather than a self-assessment.
  *
+ * Order of checks:
+ *   1. deterministic checks, in code;
+ *   2. the model's assertion review, scoped to the test carrying the id;
+ *   3. decision: deterministic problem -> reject; match -> approve; ambiguous
+ *      requirement -> escalate; assertions sound but beyond the ticket ->
+ *      escalate (scope-beyond-requirement); contradiction or a test that proves
+ *      nothing -> reject.
+ *
  * Usage:
  *   QA_LLM_KEY_FILE=... node agents/reviewer/run-review.js --cases 20
  */
@@ -66,17 +74,41 @@ function extractTest(text, requirement) {
   return String(text).slice(start, end === -1 ? start + 3000 : end + 7);
 }
 
+/**
+ * Normalise the model's vocabulary to the four verdicts the decision step
+ * understands. Anything unrecognised is treated as ambiguous, never as a pass.
+ */
+function normaliseVerdict(raw) {
+  const v = String(raw || '').trim().toLowerCase().replace(/[\s_]+/g, '-');
+  if (v === 'match' || v === 'scope-beyond-requirement' || v === 'mismatch' || v === 'ambiguous') return v;
+  if (v === 'scope' || v === 'out-of-scope' || v === 'over-specified') return 'scope-beyond-requirement';
+  return 'ambiguous';
+}
+
 async function checkAssertions(requirementText, after, requirement) {
   const reply = await chat([
     {
       role: 'system',
       content: `You are the Reviewer in an agentic QA team. Compare the assertions to the requirement.
-Return JSON only: {"verdict":"match|mismatch|ambiguous","reason":"one line","missing_assertion":"only if mismatch"}
-Rules: mismatch when an assertion proves something the requirement never asked for, or the values contradict it; ambiguous when the requirement itself is unclear; never approve on a guess.`,
+Return JSON only: {"verdict":"match|scope-beyond-requirement|mismatch|ambiguous","reason":"one line","beyond_requirement":"only if scope-beyond-requirement","missing_assertion":"only if mismatch"}
+
+Definitions:
+- match: the assertions are exact, and together they establish the requirement's measurable claim without asserting anything it never asked for.
+- scope-beyond-requirement: every assertion is individually sound and none contradicts the requirement, but at least one makes a claim about the behaviour under test that the requirement did not ask for (an extra response field, an exact error body or message wording, another endpoint, an additional behaviour), or the test proves only part of a requirement that names several endpoints or cases. Extra or partial coverage is a scope question for a human, not a defect.
+- mismatch: an assertion contradicts the requirement, or the test proves nothing about it because it exercises a different behaviour than the requirement names.
+- ambiguous: the requirement itself has no measurable bar, so no reviewer can honestly decide.
+
+Rules:
+- Only contradiction or a complete lack of connection to the requirement makes a verdict mismatch.
+- Never return mismatch for a test that is merely stricter or narrower than the requirement; that is scope-beyond-requirement.
+- When the assertions are sound but any of them goes beyond the requirement, answer scope-beyond-requirement, even if the rest matches.
+- Precondition assertions that establish the starting state before the behaviour is exercised (for example, six products present before a search) are setup, not extra scope. When the requirement asks for an empty state, asserting the empty-state message is within scope, not beyond it.
+- If every assertion is about the behaviour the requirement names and none contradicts it, answer match.
+- Never approve on a guess.`,
     },
     {
       role: 'user',
-      content: `Requirement: ${requirementText}\nTest under review:\n${String(after).slice(0, 4000)}\nIf the requirement states no measurable bar (words like quickly, responsive, user-friendly), the verdict is ambiguous, not mismatch.`,
+      content: `Requirement: ${requirementText}\nTest under review:\n${String(after).slice(0, 4000)}\nIf the requirement states no measurable bar (words like quickly, responsive, user-friendly), the verdict is ambiguous, not mismatch or scope-beyond-requirement.`,
     },
   ], { maxTokens: 1500 });
 
@@ -84,7 +116,8 @@ Rules: mismatch when an assertion proves something the requirement never asked f
   const start = reply.content.indexOf('{');
   const end = reply.content.lastIndexOf('}');
   try {
-    return JSON.parse(reply.content.slice(start, end + 1));
+    const parsed = JSON.parse(reply.content.slice(start, end + 1));
+    return { ...parsed, verdict: normaliseVerdict(parsed.verdict) };
   } catch {
     return { verdict: 'ambiguous', reason: 'reviewer output unparseable' };
   }
@@ -97,9 +130,10 @@ function read(rel) {
 }
 
 /**
- * Twenty planted cases. The label is the ground truth a careful human would
+ * Twenty-two planted cases. The label is the ground truth a careful human would
  * reach from the diff alone; "escalate" is a correct answer where the evidence
- * is insufficient, not a failure to decide.
+ * is insufficient, not a failure to decide. A test that is stricter or narrower
+ * than its requirement is a scope question, so it escalates rather than rejects.
  */
 function buildCases() {
   const cart = read('tests/cart.spec.ts');
@@ -179,22 +213,33 @@ async function reviewCase(c) {
   let modelCheck = null;
   let decision;
   let reason;
+  let reasonCode = null;
 
   if (problems.length) {
     decision = 'reject';
     reason = problems[0];
+    reasonCode = problems[0].split(':')[0];
   } else {
     const scoped = extractTest(c.after, c.requirement);
     modelCheck = await checkAssertions(c.text, scoped || c.after, c.requirement);
     if (modelCheck.verdict === 'match') {
       decision = 'approve';
       reason = 'deterministic checks clear; assertions match the requirement';
+      reasonCode = 'match';
+    } else if (modelCheck.verdict === 'scope-beyond-requirement') {
+      // Sound assertions that reach past the ticket: a human decides scope,
+      // the Reviewer does not reject a legitimate change over it.
+      decision = 'escalate';
+      reason = `scope-beyond-requirement: ${modelCheck.reason}`;
+      reasonCode = 'scope-beyond-requirement';
     } else if (modelCheck.verdict === 'ambiguous') {
       decision = 'escalate';
       reason = `requirement or evidence unclear: ${modelCheck.reason}`;
+      reasonCode = 'ambiguous-requirement';
     } else {
       decision = 'reject';
       reason = `assertion mismatch: ${modelCheck.reason}`;
+      reasonCode = 'assertion-mismatch';
     }
   }
 
@@ -206,6 +251,7 @@ async function reviewCase(c) {
     label: c.label,
     decision,
     reason,
+    reasonCode,
     deterministic: problems,
     model: modelCheck,
     agrees: decision === c.label,
@@ -231,12 +277,16 @@ async function main() {
 
   const agrees = results.filter((r) => r.agrees).length;
   const escalated = results.filter((r) => r.decision === 'escalate').length;
+  const escalateScope = results.filter((r) => r.reasonCode === 'scope-beyond-requirement').length;
+  const escalateAmbiguous = results.filter((r) => r.reasonCode === 'ambiguous-requirement').length;
   const summary = {
     cases: results.length,
     agrees,
     accuracy: Number((agrees / results.length).toFixed(3)),
     escalated,
     escalationRate: Number((escalated / results.length).toFixed(3)),
+    escalateScope,
+    escalateAmbiguous,
     rejects: results.filter((r) => r.decision === 'reject').length,
     approves: results.filter((r) => r.decision === 'approve').length,
     plantedWeakened: results.filter((r) => r.id.startsWith('w')).length,
