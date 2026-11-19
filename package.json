@@ -1,0 +1,21 @@
+{
+  "name": "agentic-qa",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agentic QA portfolio project - demo shop app with seeded bugs and a Playwright suite",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app/server.js",
+    "test": "playwright test",
+    "test:bugs": "SEEDED_BUGS=all playwright test tests/seeded-bugs.spec.ts",
+    "report": "playwright show-report"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
