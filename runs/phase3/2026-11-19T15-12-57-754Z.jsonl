@@ -1,0 +1,1 @@
+{"case":"checkout-tax","requirement":"REQ-CHK-01","seededBug":"BUG-01","model":"glm-5.3-flash","startedAt":"2026-11-19T15:12:57.758Z","stages":{"planner":{"ok":false,"error":"planner reply hit the token cap"}},"detected":false,"missed":true,"misclassified":false}
