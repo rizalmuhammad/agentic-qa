@@ -3,9 +3,11 @@
     "cases": 22,
     "agrees": 21,
     "accuracy": 0.955,
-    "escalated": 2,
-    "escalationRate": 0.091,
-    "rejects": 19,
+    "escalated": 3,
+    "escalationRate": 0.136,
+    "escalateScope": 1,
+    "escalateAmbiguous": 2,
+    "rejects": 18,
     "approves": 1,
     "plantedWeakened": 6,
     "weakenedCaught": 6,
@@ -22,6 +24,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an exact money value disappeared",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an exact money value disappeared"
       ],
@@ -42,6 +45,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an exact money value disappeared",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an exact money value disappeared"
       ],
@@ -62,6 +66,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an assertion was removed",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an assertion was removed",
         "weakened-assertion: an exact money value disappeared"
@@ -83,6 +88,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an assertion was removed",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an assertion was removed"
       ],
@@ -103,6 +109,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an assertion was removed",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an assertion was removed",
         "weakened-assertion: an exact money value disappeared"
@@ -124,6 +131,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "weakened-assertion: an assertion was removed",
+      "reasonCode": "weakened-assertion",
       "deterministic": [
         "weakened-assertion: an assertion was removed",
         "weakened-assertion: an exact money value disappeared"
@@ -145,6 +153,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "deleted-test: a test block disappeared",
+      "reasonCode": "deleted-test",
       "deterministic": [
         "deleted-test: a test block disappeared",
         "weakened-assertion: an assertion was removed",
@@ -167,6 +176,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "deleted-test: a test block disappeared",
+      "reasonCode": "deleted-test",
       "deterministic": [
         "deleted-test: a test block disappeared",
         "weakened-assertion: an assertion was removed",
@@ -189,6 +199,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "unrelated-file: change outside tests/",
+      "reasonCode": "unrelated-file",
       "deterministic": [
         "unrelated-file: change outside tests/"
       ],
@@ -209,6 +220,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "unrelated-file: change outside tests/",
+      "reasonCode": "unrelated-file",
       "deterministic": [
         "unrelated-file: change outside tests/"
       ],
@@ -229,6 +241,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "unrelated-file: change outside tests/",
+      "reasonCode": "unrelated-file",
       "deterministic": [
         "unrelated-file: change outside tests/"
       ],
@@ -249,6 +262,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "unrelated-file: change outside tests/",
+      "reasonCode": "unrelated-file",
       "deterministic": [
         "unrelated-file: change outside tests/"
       ],
@@ -269,6 +283,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "masking: a sleep, skip or force was added",
+      "reasonCode": "masking",
       "deterministic": [
         "masking: a sleep, skip or force was added"
       ],
@@ -289,6 +304,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "masking: a sleep, skip or force was added",
+      "reasonCode": "masking",
       "deterministic": [
         "masking: a sleep, skip or force was added"
       ],
@@ -309,6 +325,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "deleted-test: a test block disappeared",
+      "reasonCode": "deleted-test",
       "deterministic": [
         "deleted-test: a test block disappeared",
         "masking: a sleep, skip or force was added"
@@ -330,6 +347,7 @@
       "label": "reject",
       "decision": "reject",
       "reason": "masking: a sleep, skip or force was added",
+      "reasonCode": "masking",
       "deterministic": [
         "masking: a sleep, skip or force was added"
       ],
@@ -349,12 +367,13 @@
       "planted": "cart assertions do not prove a discount",
       "label": "reject",
       "decision": "reject",
-      "reason": "assertion mismatch: No assertion exercises SAVE10 or a 10% subtotal discount; the tests cover unrelated cart behaviors (add, qty, remove, tax, out-of-stock).",
+      "reason": "assertion mismatch: No test applies the SAVE10 code or asserts a 10% subtotal discount; the suite covers unrelated cart behaviours (add, qty, remove, invalid qty, out-of-stock).",
+      "reasonCode": "assertion-mismatch",
       "deterministic": [],
       "model": {
         "verdict": "mismatch",
-        "reason": "No assertion exercises SAVE10 or a 10% subtotal discount; the tests cover unrelated cart behaviors (add, qty, remove, tax, out-of-stock).",
-        "missing_assertion": "Applying promo code SAVE10 reduces the subtotal by 10% (e.g., $45.00 subtotal → $4.50 off, discounted subtotal $40.50)."
+        "reason": "No test applies the SAVE10 code or asserts a 10% subtotal discount; the suite covers unrelated cart behaviours (add, qty, remove, invalid qty, out-of-stock).",
+        "missing_assertion": "A test that applies promo code SAVE10 to a known subtotal and asserts the discounted subtotal equals 90% of the pre-discount subtotal."
       },
       "agrees": true,
       "evidencePack": {
@@ -371,12 +390,13 @@
       "planted": "checkout assertions do not prove stock handling",
       "label": "reject",
       "decision": "reject",
-      "reason": "assertion mismatch: All five tests verify checkout totals, discounts, and order history; none attempts to add an out-of-stock product or asserts the add is rejected.",
+      "reason": "assertion mismatch: The suite tests checkout totals, discounts, and order placement; no test attempts to add an out-of-stock product or asserts the addition is rejected.",
+      "reasonCode": "assertion-mismatch",
       "deterministic": [],
       "model": {
         "verdict": "mismatch",
-        "reason": "All five tests verify checkout totals, discounts, and order history; none attempts to add an out-of-stock product or asserts the add is rejected.",
-        "missing_assertion": "A test that adds an out-of-stock product (e.g., via addToCartViaApi or POST /api/cart) and asserts the request fails and the cart remains unchanged."
+        "reason": "The suite tests checkout totals, discounts, and order placement; no test attempts to add an out-of-stock product or asserts the addition is rejected.",
+        "missing_assertion": "A test that attempts to add an out-of-stock product and asserts the operation fails (e.g., non-success status or error message), proving it cannot be added."
       },
       "agrees": true,
       "evidencePack": {
@@ -392,20 +412,21 @@
       "requirement": "REQ-AUTH-04",
       "planted": "comment added, behaviour unchanged",
       "label": "approve",
-      "decision": "reject",
-      "reason": "assertion mismatch: Test over-specifies an exact error body ({error:'unauthorized'}) the requirement never asked for, and only covers the cart endpoint, not order calls.",
+      "decision": "escalate",
+      "reason": "scope-beyond-requirement: The 401 status assertion matches the requirement, but the test additionally asserts an exact response body ({ error: 'unauthorized' }) the requirement never specified, and it covers only the cart endpoint while the requirement names both cart and order calls.",
+      "reasonCode": "scope-beyond-requirement",
       "deterministic": [],
       "model": {
-        "verdict": "mismatch",
-        "reason": "Test over-specifies an exact error body ({error:'unauthorized'}) the requirement never asked for, and only covers the cart endpoint, not order calls.",
-        "missing_assertion": "Order API call without a valid token should also return 401."
+        "verdict": "scope-beyond-requirement",
+        "reason": "The 401 status assertion matches the requirement, but the test additionally asserts an exact response body ({ error: 'unauthorized' }) the requirement never specified, and it covers only the cart endpoint while the requirement names both cart and order calls.",
+        "beyond_requirement": "Exact error body assertion toEqual({ error: 'unauthorized' }) is extra scope; also only the cart endpoint is exercised, leaving the order endpoint case untested (partial coverage is a scope question for a human)."
       },
       "agrees": false,
       "evidencePack": {
         "diff": "tests/auth.spec.ts: 1601 -> 1633 chars",
         "beforeAfter": "changed",
         "requirement": "Cart and order API calls without a valid token return 401.",
-        "confidence": "mismatch"
+        "confidence": "scope-beyond-requirement"
       }
     },
     {
@@ -416,10 +437,11 @@
       "label": "approve",
       "decision": "approve",
       "reason": "deterministic checks clear; assertions match the requirement",
+      "reasonCode": "match",
       "deterministic": [],
       "model": {
         "verdict": "match",
-        "reason": "Test verifies empty state (0 cards + 'No products found.' visible) and absence of the error branch text, directly covering both clauses of the requirement; the initial 6-card count is a precondition, not extra behavior."
+        "reason": "All assertions target the required behaviour: the no-match search yields zero products, shows the empty-state message, and proves no error is rendered."
       },
       "agrees": true,
       "evidencePack": {
@@ -436,11 +458,12 @@
       "planted": "no measurable threshold in the requirement",
       "label": "escalate",
       "decision": "escalate",
-      "reason": "requirement or evidence unclear: Requirement states no measurable performance bar ('quickly'), and the assertions cover catalog/search correctness rather than speed, so no performance claim can be validated or contradicted.",
+      "reason": "requirement or evidence unclear: The requirement's bar ('quickly enough for users') is not measurable, and no assertion measures timing, so no reviewer can honestly decide match or mismatch.",
+      "reasonCode": "ambiguous-requirement",
       "deterministic": [],
       "model": {
         "verdict": "ambiguous",
-        "reason": "Requirement states no measurable performance bar ('quickly'), and the assertions cover catalog/search correctness rather than speed, so no performance claim can be validated or contradicted."
+        "reason": "The requirement's bar ('quickly enough for users') is not measurable, and no assertion measures timing, so no reviewer can honestly decide match or mismatch."
       },
       "agrees": true,
       "evidencePack": {
@@ -457,11 +480,12 @@
       "planted": "no measurable threshold in the requirement",
       "label": "escalate",
       "decision": "escalate",
-      "reason": "requirement or evidence unclear: Requirement uses the subjective phrase 'feel responsive' with no measurable bar (no latency/timeout target), so any assertion set cannot be confirmed or contradicted against it; these tests instead assert catalog functionality.",
+      "reason": "requirement or evidence unclear: The requirement 'feel responsive on a normal connection' sets no measurable bar, and the assertions cover catalog display, search filtering, empty state, and a 404 API response rather than any responsiveness criterion.",
+      "reasonCode": "ambiguous-requirement",
       "deterministic": [],
       "model": {
         "verdict": "ambiguous",
-        "reason": "Requirement uses the subjective phrase 'feel responsive' with no measurable bar (no latency/timeout target), so any assertion set cannot be confirmed or contradicted against it; these tests instead assert catalog functionality."
+        "reason": "The requirement 'feel responsive on a normal connection' sets no measurable bar, and the assertions cover catalog display, search filtering, empty state, and a 404 API response rather than any responsiveness criterion."
       },
       "agrees": true,
       "evidencePack": {
