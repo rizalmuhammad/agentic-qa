@@ -1,0 +1,54 @@
+{
+  "executed": [
+    {
+      "id": "chg-cart",
+      "files": [
+        "app/public/index.html",
+        "tests/cart.spec.ts"
+      ],
+      "bug": "BUG-12",
+      "selected": [
+        "tests/cart.spec.ts"
+      ],
+      "failed": 1,
+      "passed": 4,
+      "caught": true,
+      "detectedByFull": true,
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-checkout",
+      "files": [
+        "app/public/index.html",
+        "tests/checkout.spec.ts"
+      ],
+      "bug": "BUG-01",
+      "selected": [
+        "tests/checkout.spec.ts"
+      ],
+      "failed": 3,
+      "passed": 2,
+      "caught": true,
+      "detectedByFull": true,
+      "missedVsFull": false
+    }
+  ],
+  "timing": {
+    "fullSeconds": 25,
+    "shards": [
+      16,
+      11
+    ],
+    "testsFull": 24,
+    "testsSharded": 24,
+    "shardedWallSeconds": 16
+  },
+  "highRisk": {
+    "files": [
+      "app/server.js"
+    ],
+    "risk": "high",
+    "autoApproved": false,
+    "approver": "human"
+  }
+}
