@@ -1,0 +1,9 @@
+{
+  "logFile": "runs/2026-11-19T10-07-21-438Z.jsonl",
+  "runs": 1,
+  "correct": 1,
+  "correctRate": 1,
+  "longestCorrectStreak": 1,
+  "tokens": 3216,
+  "meanLatencyMs": 13192
+}
