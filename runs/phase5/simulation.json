@@ -1,0 +1,543 @@
+{
+  "summary": {
+    "changes": 30,
+    "selectionOk": 30,
+    "missedTests": 0,
+    "highRisk": 8,
+    "refusedAuto": 11
+  },
+  "results": [
+    {
+      "id": "chg-01",
+      "files": [
+        "app/server.js"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-02",
+      "files": [
+        "app/public/index.html"
+      ],
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-03",
+      "files": [
+        "tests/cart.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-04",
+      "files": [
+        "tests/auth.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-05",
+      "files": [
+        "tests/checkout.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-06",
+      "files": [
+        "tests/catalog.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-07",
+      "files": [
+        "tests/orders.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-08",
+      "files": [
+        "tests/fixtures.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-09",
+      "files": [
+        "playwright.config.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-10",
+      "files": [
+        "docs/requirements.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-11",
+      "files": [
+        "docs/assertion-standard.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-12",
+      "files": [
+        "README.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-13",
+      "files": [
+        "app/server.js",
+        "tests/cart.spec.ts"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-14",
+      "files": [
+        "app/public/index.html",
+        "tests/catalog.spec.ts"
+      ],
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-15",
+      "files": [
+        "tests/fixtures.ts",
+        "tests/checkout.spec.ts"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-16",
+      "files": [
+        "app/server.js",
+        "app/public/index.html"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-17",
+      "files": [
+        ".github/workflows/ci.yml"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-18",
+      "files": [
+        "docs/release-policy.md"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-19",
+      "files": [
+        "mcp/servers.json"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-20",
+      "files": [
+        "app/server.js",
+        "app/public/index.html",
+        "tests/fixtures.ts"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-21",
+      "files": [
+        "app/server.js",
+        "docs/progress.md"
+      ],
+      "risk": "high",
+      "approver": "human",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-22",
+      "files": [
+        "app/public/index.html",
+        "docs/progress.md"
+      ],
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-23",
+      "files": [
+        "tests/cart.spec.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-24",
+      "files": [
+        "tests/auth.spec.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-25",
+      "files": [
+        "tests/checkout.spec.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-26",
+      "files": [
+        "tests/catalog.spec.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-27",
+      "files": [
+        "tests/orders.spec.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-28",
+      "files": [
+        "tests/fixtures.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-29",
+      "files": [
+        "playwright.config.ts",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "required": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "missing": [],
+      "ok": true
+    },
+    {
+      "id": "chg-30",
+      "files": [
+        "docs/requirements.md",
+        "docs/progress.md"
+      ],
+      "risk": "low",
+      "approver": "reviewer",
+      "selected": [],
+      "required": [],
+      "missing": [],
+      "ok": true
+    }
+  ]
+}
