@@ -12,7 +12,7 @@ const crypto = require('crypto');
 const express = require('express');
 
 const PORT = Number(process.env.PORT || 3100);
-const SEEDED_ENV = String(process.env.SEEDED_BUGS || '').trim();
+const SEEDED_ENV = String(process.env.QA_SEEDED_BUGS || process.env.SEEDED_BUGS || '').trim();
 
 const ALL_BUGS = Array.from({ length: 15 }, (_, i) => `BUG-${String(i + 1).padStart(2, '0')}`);
 

@@ -26,8 +26,10 @@ export default defineConfig({
   webServer: {
     command: 'node app/server.js',
     url: `http://127.0.0.1:${PORT}/api/products`,
-    reuseExistingServer: !process.env.CI,
+    // Never reuse: the app's seeded-bug state is set per server start, so a
+    // reused server would silently run the wrong bug configuration.
+    reuseExistingServer: false,
     timeout: 20_000,
-    env: { PORT: String(PORT), SEEDED_BUGS: '' },
+    env: { PORT: String(PORT), SEEDED_BUGS: '', QA_SEEDED_BUGS: process.env.QA_SEEDED_BUGS || '' },
   },
 });
