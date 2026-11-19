@@ -58,7 +58,7 @@ Login redirects to `#/products`; add-to-cart shows a toast (`[data-testid=toast]
 
 ## Seeded bugs
 Inactive by default. Activated by `?bugs=BUG-01,BUG-02` on any page (sets a `seeded_bugs` cookie) or `SEEDED_BUGS=all` env for the server. When active, the server exposes the active ids at `GET /api/__bugs` and the UI reads them for client-side bugs.
-The authoritative list (id, flow, severity, expected symptom) is `docs/seeded-bugs.private.json` and must not be given to future agents at run time.
+The authoritative list (id, flow, severity, expected symptom) is the private seeded-bug list and must not be given to future agents at run time.
 
 ## Definition of green
 `npm test` passes against the app with no bugs enabled. Each spec title names the requirement it covers.

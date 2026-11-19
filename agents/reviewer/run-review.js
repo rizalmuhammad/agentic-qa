@@ -252,7 +252,11 @@ async function main() {
   if (misses.length) console.log('disagreements:', JSON.stringify(misses.map((m) => ({ id: m.id, label: m.label, decision: m.decision, reason: m.reason })), null, 1));
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = { buildCases, checkDeterministic, reviewCase };

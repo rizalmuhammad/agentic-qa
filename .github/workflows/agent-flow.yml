@@ -1,0 +1,81 @@
+name: Agent flows
+
+on:
+  workflow_dispatch:
+    inputs:
+      flow:
+        description: Which flow to run
+        type: choice
+        options: [reviewer, team, both]
+        default: reviewer
+      cases:
+        description: Case limit (reviewer only)
+        type: string
+        default: "22"
+
+permissions:
+  contents: read
+
+jobs:
+  reviewer:
+    if: inputs.flow == 'reviewer' || inputs.flow == 'both'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check the model key is present
+        env:
+          QA_LLM_API_KEY: ${{ secrets.QA_LLM_API_KEY }}
+        run: |
+          if [ -z "$QA_LLM_API_KEY" ]; then
+            echo "::error::Repository secret QA_LLM_API_KEY is missing. Add it in Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+      - name: Run the Reviewer in shadow mode
+        env:
+          QA_LLM_API_KEY: ${{ secrets.QA_LLM_API_KEY }}
+        run: node agents/reviewer/run-review.js --cases=${{ inputs.cases }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reviewer-report
+          path: runs/phase4/
+          if-no-files-found: ignore
+
+  team:
+    if: inputs.flow == 'team' || inputs.flow == 'both'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Check the model key is present
+        env:
+          QA_LLM_API_KEY: ${{ secrets.QA_LLM_API_KEY }}
+        run: |
+          if [ -z "$QA_LLM_API_KEY" ]; then
+            echo "::error::Repository secret QA_LLM_API_KEY is missing. Add it in Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+      - name: Run the team flow
+        env:
+          QA_LLM_API_KEY: ${{ secrets.QA_LLM_API_KEY }}
+        run: node agents/team/run-flow.js --all --port 3210
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: team-run
+          path: |
+            runs/phase3/
+            test-results/
+          if-no-files-found: ignore
