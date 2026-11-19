@@ -129,6 +129,9 @@ export async function login(
   await page.getByTestId('login-email').fill(email);
   await page.getByTestId('login-password').fill(password);
   await page.getByTestId('login-submit').click();
+  // The submit handler stores the token asynchronously; wait for it instead of
+  // assuming the click already finished the round trip.
+  await page.waitForURL('**/#/products');
 }
 
 /** Activate seeded bugs for this browser context through the contract hook. */
@@ -156,9 +159,12 @@ export async function addToCartFromUi(
 }
 
 export async function uiToken(page: Page): Promise<string> {
-  const token = await page.evaluate(() => localStorage.getItem('token') || '');
-  expect(token, 'the signed-in page should hold a token').toBeTruthy();
-  return token;
+  await expect
+    .poll(async () => page.evaluate(() => localStorage.getItem('token') || ''), {
+      message: 'the signed-in page should hold a token',
+    })
+    .toBeTruthy();
+  return page.evaluate(() => localStorage.getItem('token') || '');
 }
 
 export async function addToCartViaApi(

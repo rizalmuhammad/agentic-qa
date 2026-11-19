@@ -28,6 +28,6 @@ export default defineConfig({
     url: `http://127.0.0.1:${PORT}/api/products`,
     reuseExistingServer: !process.env.CI,
     timeout: 20_000,
-    env: { PORT: String(PORT) },
+    env: { PORT: String(PORT), SEEDED_BUGS: '' },
   },
 });
