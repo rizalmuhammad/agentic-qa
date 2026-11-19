@@ -1,41 +1,43 @@
-# Phase 2 measurement - 20 runs
+# Phase 2 measurement
 
-Date: 2026-11-19. Model: `glm-5.3-flash` via `https://ai.sumopod.com/v1`. Config: one repair attempt, `max_tokens` 6000, single worker per case.
+Model: `glm-5.3-flash` via `https://ai.sumopod.com/v1`. One repair attempt, `max_tokens` 8000, four cases run in parallel on separate ports.
 
-## Result
+## Iterations
 
-| Case | Correct | Runs |
-|---|---|---|
-| search-filter (REQ-CAT-02) | 5 | 5 |
-| cart-remove (REQ-CART-03) | 3 | 5 |
-| auth-wrong-password (REQ-AUTH-02) | 3 | 5 |
-| checkout-discount (REQ-CHK-02) | 1 | 5 |
-| **Total** | **12** | **20** |
+| Iteration | Runs | Correct | Longest streak | Change |
+|---|---|---|---|---|
+| 1 | 20 | 12 (60%) | 6 | baseline: `max_tokens` 6000 |
+| 2 | 20 | 18 (90%) | 9 | 8000 tokens; reject `finish_reason: length` before repair; shorter replies |
+| 3 | 20 | **17 (85%)** | **13** | validator rejects `from './fixtures'` in generated files |
 
-- Correct rate: 60%.
-- Longest correct streak: 6.
-- Tokens: 187,635 total.
-- Mean model latency: 106 s per run.
+Iteration 3 passes the gate: **13 correct runs in a row**, against a requirement of 10-20. Iterations 1 and 2 are kept in `runs/` because a baseline that is quietly removed is not a baseline.
 
-## Gate
+## Iteration 3 detail
 
-**Not met.** The exit gate asks for 10-20 correct runs in a row on known cases. The longest run of correct results here is 6, so the phase does not merge. The PR stays open with this failure written in it, as the plan requires.
+| Case | Correct / runs |
+|---|---|
+| search-filter (REQ-CAT-02) | 5 / 5 |
+| cart-remove (REQ-CART-03) | 5 / 5 |
+| auth-wrong-password (REQ-AUTH-02) | 5 / 5 |
+| checkout-discount (REQ-CHK-02) | 2 / 5 |
 
-## What failed, and why
+Failures, all on one case:
 
-Two distinct causes, both recorded per run in `runs/*.jsonl`:
+- Two runs hit the 8000-token cap before writing JSON. The checkout case asks for a multi-step test and the model reasons first.
+- One run was rejected for importing `./fixtures` instead of `../fixtures`.
 
-1. **Truncated output (5 runs).** The reply hit the 6000-token limit before writing the JSON object. Every one of these was on the two longer cases: checkout-discount (4) and cart-remove (1). The model reasons before answering, and the reasoning spends the budget. This is a harness limit, not a model failure.
-2. **Generated test failed at runtime (3 runs).** One auth case and two cart cases produced a syntactically valid test that failed in the browser. Those are genuine wrong answers and should count against the loop.
+## What the gate covers, and what it does not
 
-## What this says about the loop
+The gate asks for a streak, evidence per run, no writes outside scope, cost recorded, and replayability.
 
-- The narrow, single-step cases are reliable: 5/5 on search, and the 8 correct runs include a clean streak of 6 before the checkout case broke it.
-- The loop is honest: it scores a browser failure as incorrect and keeps the trace, rather than accepting the model's own claim.
-- The repair attempt helps but is not sufficient. One checkout run passed only on the second attempt.
+- Streak: 13. ✓
+- Evidence: every run is a JSONL line with the generated file, tokens, latency and result; failures keep their traces. ✓
+- Scope: the validator rejects any path outside `tests/generated/` and any import of application code. ✓
+- Cost: tokens, not currency, because the provider publishes no price. Partial, and labelled.
+- Replay: rerun any case from its log line. ✓
 
-## Next iteration (not done in this measurement)
+The weakness the gate does not catch: **checkout is 2/5**, and the same case produced the only three failures. A streak across four interleaved cases can look healthy while one case is unreliable, so the streak is necessary but not sufficient. This is recorded rather than smoothed: Phase 3 should revisit the long-case prompt before the loop is trusted with harder work.
 
-- Raise the token budget per call, or ask for the file body without reasoning, so long cases stop truncating.
-- Add a validation rule that rejects a reply with `finish_reason: length` before spending a repair attempt on it.
-- Re-run the 20 cases on the changed config and compare. The current numbers stay in `runs/` as the baseline.
+## Environment note
+
+The first measurement batch died at 10:50 because the runner was tied to the tool shell and was killed when the turn ended. The run log stopped mid-case with no exit line. Later batches are started detached, and progress is only reported after checking the process id and the output file's age.

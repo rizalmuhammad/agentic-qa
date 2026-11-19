@@ -35,7 +35,7 @@ async function chat(messages, options = {}) {
       model: options.model || MODEL,
       messages,
       temperature: options.temperature ?? 0.2,
-      max_tokens: options.maxTokens ?? 6000,
+      max_tokens: options.maxTokens ?? 8000,
     }),
   });
 

@@ -70,7 +70,7 @@ function systemPrompt() {
   return `You are the Generator in an agentic QA team. You write one Playwright + TypeScript test for one requirement.
 
 Hard rules:
-- Output JSON only, no prose, in the shape {"path": "tests/generated/<slug>.spec.ts", "content": "<file body>"}.
+- Output the JSON object as your first and only content. No explanation before or after it. \n- Keep the test body short: no comments longer than one line.\n- Shape {"path": "tests/generated/<slug>.spec.ts", "content": "<file body>"}.
 - The test title must contain the requirement id, for example "REQ-CAT-02 ...".
 - Assert exact values. No truthiness checks. No waitForTimeout. No test.skip. No force clicks. No test.only.
 - seedCart() signs in through the API and returns an API token; it does NOT sign the browser in. A UI test still needs login(page), and a cart seeded with seedCart's token is not the cart the browser shows.
@@ -128,6 +128,8 @@ function validate(proposal, testCase, name) {
     if (rule.pattern.test(content)) problems.push(rule.reason);
   }
   if (/from\s+['"]\.\.\/\.\.\/app/.test(content)) problems.push('test imports application code');
+  // Generated files live in tests/generated/, so fixtures are one level up.
+  if (/from\s+['"]\.\/fixtures['"]/.test(content)) problems.push("import must be '../fixtures', not './fixtures' (file lives in tests/generated/)");
   return { ok: problems.length === 0, problems, filePath, content };
 }
 
@@ -189,8 +191,8 @@ async function runOnce(name, testCase, runId) {
 
     let proposal;
     try {
-      if (!String(reply.content || '').trim() && reply.finishReason === 'length') {
-        throw new Error('reply hit the token limit before writing JSON; return a compact JSON object only, no prose');
+      if (reply.finishReason === 'length') {
+        throw new Error('reply hit the token cap; return the JSON object only, with no explanation and no comments in the code');
       }
       proposal = extractJson(reply.content);
     } catch (error) {
