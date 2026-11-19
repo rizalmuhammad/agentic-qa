@@ -2,7 +2,18 @@
 
 A learning and portfolio project about using AI agents to write, run, and review end-to-end tests. It is not production experience, and it does not describe a real product, a real team, or real traffic. The app under test is a small demo Shop app built for this project, and it contains deliberately seeded bugs so that failure detection and triage can be practised honestly.
 
-**Status: Phase 0 complete, Phase 1 in progress.** Phase 0 merged with 18 active tests and 15 seeded-bug checks green in CI. Phase 1 adds the prompt library, the assertion standard, and a reviewed AI-assisted test log.
+**Status: all six phases complete.** Each phase merged with its own PR and exit gate.
+
+| Phase | Result |
+|---|---|
+| 0 - Foundation | 18 active tests + 15 seeded-bug checks, CI green on 4 consecutive runs |
+| 1 - AI-assisted | 5 reviewed AI cases, 2 rejected; assertion standard and prompt library |
+| 2 - Single agent | 17/20 runs correct, 13-run streak |
+| 3 - Agent team | 4 of 5 seeded bugs found, 1 honest miss, 0 misclassifications |
+| 4 - Reviewer | 21/22 shadow cases agree; 6/6 weakened and 2/2 deleted tests caught |
+| 5 - Scale and release | 30/30 selection coverage; high-risk refused; 25s full vs 16s sharded |
+
+This is a portfolio project on a demo app with seeded bugs. It is not production experience.
 
 ## What is in the project
 
