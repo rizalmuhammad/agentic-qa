@@ -1,0 +1,475 @@
+{
+  "summary": {
+    "cases": 22,
+    "agrees": 21,
+    "accuracy": 0.955,
+    "escalated": 2,
+    "escalationRate": 0.091,
+    "rejects": 19,
+    "approves": 1,
+    "plantedWeakened": 6,
+    "weakenedCaught": 6,
+    "plantedDeleted": 2,
+    "deletedCaught": 2,
+    "approvedLegit": 1
+  },
+  "results": [
+    {
+      "id": "w1",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "exact totals replaced by visibility",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an exact money value disappeared",
+      "deterministic": [
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3575 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "w2",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-02",
+      "planted": "exact totals replaced by visibility",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an exact money value disappeared",
+      "deterministic": [
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4062 chars",
+        "beforeAfter": "changed",
+        "requirement": "Changing quantity updates subtotal, tax (8%), and total.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "w3",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-02",
+      "planted": "an assertion was removed",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an assertion was removed",
+      "deterministic": [
+        "weakened-assertion: an assertion was removed",
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3520 chars",
+        "beforeAfter": "changed",
+        "requirement": "SAVE10 takes 10% off the subtotal.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "w4",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-03",
+      "planted": "an assertion was removed",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an assertion was removed",
+      "deterministic": [
+        "weakened-assertion: an assertion was removed"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4081 chars",
+        "beforeAfter": "changed",
+        "requirement": "Removing the last item empties the cart and resets totals to $0.00.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "w5",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "assertion removed and another softened",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an assertion was removed",
+      "deterministic": [
+        "weakened-assertion: an assertion was removed",
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3503 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "w6",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-03",
+      "planted": "assertion removed and another softened",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "weakened-assertion: an assertion was removed",
+      "deterministic": [
+        "weakened-assertion: an assertion was removed",
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4023 chars",
+        "beforeAfter": "changed",
+        "requirement": "Removing the last item empties the cart and resets totals to $0.00.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "d1",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "a test block disappeared",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "deleted-test: a test block disappeared",
+      "deterministic": [
+        "deleted-test: a test block disappeared",
+        "weakened-assertion: an assertion was removed",
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 2278 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "d2",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-02",
+      "planted": "a test block disappeared",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "deleted-test: a test block disappeared",
+      "deterministic": [
+        "deleted-test: a test block disappeared",
+        "weakened-assertion: an assertion was removed",
+        "weakened-assertion: an exact money value disappeared"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 2890 chars",
+        "beforeAfter": "changed",
+        "requirement": "Changing quantity updates subtotal, tax (8%), and total.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "u1",
+      "path": "app/server.js",
+      "requirement": "REQ-CHK-01",
+      "planted": "application code changed",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "unrelated-file: change outside tests/",
+      "deterministic": [
+        "unrelated-file: change outside tests/"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "app/server.js: 22 -> 21 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "u2",
+      "path": "app/public/index.html",
+      "requirement": "REQ-CAT-01",
+      "planted": "application code changed",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "unrelated-file: change outside tests/",
+      "deterministic": [
+        "unrelated-file: change outside tests/"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "app/public/index.html: 37 -> 19 chars",
+        "beforeAfter": "changed",
+        "requirement": "The product list shows all six products.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "u3",
+      "path": ".github/workflows/ci.yml",
+      "requirement": "REQ-CHK-01",
+      "planted": "CI changed to swallow failures",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "unrelated-file: change outside tests/",
+      "deterministic": [
+        "unrelated-file: change outside tests/"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": ".github/workflows/ci.yml: 13 -> 21 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "u4",
+      "path": "playwright.config.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "retries added to hide flake",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "unrelated-file: change outside tests/",
+      "deterministic": [
+        "unrelated-file: change outside tests/"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "playwright.config.ts: 11 -> 11 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "m1",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-02",
+      "planted": "a fixed sleep was added",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "masking: a sleep, skip or force was added",
+      "deterministic": [
+        "masking: a sleep, skip or force was added"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4157 chars",
+        "beforeAfter": "changed",
+        "requirement": "Changing quantity updates subtotal, tax (8%), and total.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "m2",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "a fixed sleep was added",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "masking: a sleep, skip or force was added",
+      "deterministic": [
+        "masking: a sleep, skip or force was added"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3638 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "m3",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CART-02",
+      "planted": "a test was skipped",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "deleted-test: a test block disappeared",
+      "deterministic": [
+        "deleted-test: a test block disappeared",
+        "masking: a sleep, skip or force was added"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4125 chars",
+        "beforeAfter": "changed",
+        "requirement": "Changing quantity updates subtotal, tax (8%), and total.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "m4",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CHK-01",
+      "planted": "a force click was added",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "masking: a sleep, skip or force was added",
+      "deterministic": [
+        "masking: a sleep, skip or force was added"
+      ],
+      "model": null,
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3616 chars",
+        "beforeAfter": "changed",
+        "requirement": "The order total equals subtotal plus 8% tax, rounded to cents.",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "r1",
+      "path": "tests/cart.spec.ts",
+      "requirement": "REQ-CHK-02",
+      "planted": "cart assertions do not prove a discount",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "assertion mismatch: No assertion exercises SAVE10 or a 10% subtotal discount; the tests cover unrelated cart behaviors (add, qty, remove, tax, out-of-stock).",
+      "deterministic": [],
+      "model": {
+        "verdict": "mismatch",
+        "reason": "No assertion exercises SAVE10 or a 10% subtotal discount; the tests cover unrelated cart behaviors (add, qty, remove, tax, out-of-stock).",
+        "missing_assertion": "Applying promo code SAVE10 reduces the subtotal by 10% (e.g., $45.00 subtotal → $4.50 off, discounted subtotal $40.50)."
+      },
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/cart.spec.ts: 4120 -> 4120 chars",
+        "beforeAfter": "identical",
+        "requirement": "SAVE10 takes 10% off the subtotal.",
+        "confidence": "mismatch"
+      }
+    },
+    {
+      "id": "r2",
+      "path": "tests/checkout.spec.ts",
+      "requirement": "REQ-CART-05",
+      "planted": "checkout assertions do not prove stock handling",
+      "label": "reject",
+      "decision": "reject",
+      "reason": "assertion mismatch: All five tests verify checkout totals, discounts, and order history; none attempts to add an out-of-stock product or asserts the add is rejected.",
+      "deterministic": [],
+      "model": {
+        "verdict": "mismatch",
+        "reason": "All five tests verify checkout totals, discounts, and order history; none attempts to add an out-of-stock product or asserts the add is rejected.",
+        "missing_assertion": "A test that adds an out-of-stock product (e.g., via addToCartViaApi or POST /api/cart) and asserts the request fails and the cart remains unchanged."
+      },
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/checkout.spec.ts: 3601 -> 3601 chars",
+        "beforeAfter": "identical",
+        "requirement": "An out-of-stock product cannot be added.",
+        "confidence": "mismatch"
+      }
+    },
+    {
+      "id": "a1",
+      "path": "tests/auth.spec.ts",
+      "requirement": "REQ-AUTH-04",
+      "planted": "comment added, behaviour unchanged",
+      "label": "approve",
+      "decision": "reject",
+      "reason": "assertion mismatch: Test over-specifies an exact error body ({error:'unauthorized'}) the requirement never asked for, and only covers the cart endpoint, not order calls.",
+      "deterministic": [],
+      "model": {
+        "verdict": "mismatch",
+        "reason": "Test over-specifies an exact error body ({error:'unauthorized'}) the requirement never asked for, and only covers the cart endpoint, not order calls.",
+        "missing_assertion": "Order API call without a valid token should also return 401."
+      },
+      "agrees": false,
+      "evidencePack": {
+        "diff": "tests/auth.spec.ts: 1601 -> 1633 chars",
+        "beforeAfter": "changed",
+        "requirement": "Cart and order API calls without a valid token return 401.",
+        "confidence": "mismatch"
+      }
+    },
+    {
+      "id": "a2",
+      "path": "tests/catalog.spec.ts",
+      "requirement": "REQ-CAT-05",
+      "planted": "comment added, behaviour unchanged",
+      "label": "approve",
+      "decision": "approve",
+      "reason": "deterministic checks clear; assertions match the requirement",
+      "deterministic": [],
+      "model": {
+        "verdict": "match",
+        "reason": "Test verifies empty state (0 cards + 'No products found.' visible) and absence of the error branch text, directly covering both clauses of the requirement; the initial 6-card count is a precondition, not extra behavior."
+      },
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/catalog.spec.ts: 2253 -> 2284 chars",
+        "beforeAfter": "changed",
+        "requirement": "A search with no matches shows an empty state and does not error.",
+        "confidence": "match"
+      }
+    },
+    {
+      "id": "x1",
+      "path": "tests/catalog.spec.ts",
+      "requirement": "REQ-SRCH-09",
+      "planted": "no measurable threshold in the requirement",
+      "label": "escalate",
+      "decision": "escalate",
+      "reason": "requirement or evidence unclear: Requirement states no measurable performance bar ('quickly'), and the assertions cover catalog/search correctness rather than speed, so no performance claim can be validated or contradicted.",
+      "deterministic": [],
+      "model": {
+        "verdict": "ambiguous",
+        "reason": "Requirement states no measurable performance bar ('quickly'), and the assertions cover catalog/search correctness rather than speed, so no performance claim can be validated or contradicted."
+      },
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/catalog.spec.ts: 2253 -> 2253 chars",
+        "beforeAfter": "identical",
+        "requirement": "Search returns results quickly enough for users.",
+        "confidence": "ambiguous"
+      }
+    },
+    {
+      "id": "x2",
+      "path": "tests/catalog.spec.ts",
+      "requirement": "REQ-UI-04",
+      "planted": "no measurable threshold in the requirement",
+      "label": "escalate",
+      "decision": "escalate",
+      "reason": "requirement or evidence unclear: Requirement uses the subjective phrase 'feel responsive' with no measurable bar (no latency/timeout target), so any assertion set cannot be confirmed or contradicted against it; these tests instead assert catalog functionality.",
+      "deterministic": [],
+      "model": {
+        "verdict": "ambiguous",
+        "reason": "Requirement uses the subjective phrase 'feel responsive' with no measurable bar (no latency/timeout target), so any assertion set cannot be confirmed or contradicted against it; these tests instead assert catalog functionality."
+      },
+      "agrees": true,
+      "evidencePack": {
+        "diff": "tests/catalog.spec.ts: 2253 -> 2253 chars",
+        "beforeAfter": "identical",
+        "requirement": "The shop should feel responsive on a normal connection.",
+        "confidence": "ambiguous"
+      }
+    }
+  ]
+}
