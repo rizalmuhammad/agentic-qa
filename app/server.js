@@ -4,7 +4,7 @@
  * Agentic QA demo shop API.
  * Deliberately simple: in-memory state, no persistence, no real auth.
  * Seeded bugs are OFF by default. They activate per request through the
- * `seeded_bugs` cookie or the SEEDED_BUGS env var. See docs/seeded-bugs.private.json.
+ * `seeded_bugs` cookie or the SEEDED_BUGS env var. See the private seeded-bug list.
  */
 
 const path = require('path');

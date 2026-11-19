@@ -75,7 +75,7 @@ This sets a `seeded_bugs` cookie. To enable every bug on the server instead:
 SEEDED_BUGS=all node app/server.js
 ```
 
-Active ids are reported at `GET /api/__bugs`. `package.json` also defines `npm run test:bugs`, which runs the seeded-bug spec with `SEEDED_BUGS=all`. The authoritative list, with symptoms and expected detection, is `docs/seeded-bugs.private.json`. That file is private: it is not given to an agent at run time, because an agent that knows the exact bug cannot be trusted to find it.
+Active ids are reported at `GET /api/__bugs`. `package.json` also defines `npm run test:bugs`, which runs the seeded-bug spec with `SEEDED_BUGS=all`. The authoritative list, with symptoms and expected detection, is the private seeded-bug list. That file is private: it is not given to an agent at run time, because an agent that knows the exact bug cannot be trusted to find it.
 
 ## Repo layout
 
