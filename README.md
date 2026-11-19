@@ -2,7 +2,7 @@
 
 A learning and portfolio project about using AI agents to write, run, and review end-to-end tests. It is not production experience, and it does not describe a real product, a real team, or real traffic. The app under test is a small demo Shop app built for this project, and it contains deliberately seeded bugs so that failure detection and triage can be practised honestly.
 
-**Status: Phase 0 in progress.** The app and the Playwright suite are being built against `docs/CONTRACT.md`. No results are claimed yet.
+**Status: Phase 0 complete, Phase 1 in progress.** Phase 0 merged with 18 active tests and 15 seeded-bug checks green in CI. Phase 1 adds the prompt library, the assertion standard, and a reviewed AI-assisted test log.
 
 ## What is in the project
 

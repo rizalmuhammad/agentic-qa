@@ -179,3 +179,30 @@ export async function addToCartViaApi(
   });
   expect(response.status(), `adding ${productId} x${qty} should succeed`).toBe(200);
 }
+
+export type SeedCartItem = { productId: string; qty?: number };
+
+/**
+ * Sign in through the API and put items in that token's cart. Returns the
+ * token so the caller can check out or read the cart without signing in again.
+ * The browser is not signed in by this helper; use login(page) for that.
+ */
+export async function seedCart(
+  request: APIRequestContext,
+  items: SeedCartItem[],
+  email: string = DEMO_USER.email,
+  password: string = DEMO_USER.password,
+): Promise<string> {
+  const token = await apiLogin(request, email, password);
+  const auth = { Authorization: `Bearer ${token}` };
+
+  for (const { productId, qty = 1 } of items) {
+    const response = await request.post('/api/cart', {
+      headers: auth,
+      data: { productId, qty },
+    });
+    expect(response.status(), `seeding ${productId} x${qty} should succeed`).toBe(200);
+  }
+
+  return token;
+}
