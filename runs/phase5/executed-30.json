@@ -1,0 +1,2051 @@
+{
+  "note": "Phase 5 batch execution: every generated change set, selected versus full, one seeded bug per set.",
+  "generatedAt": "2026-11-20T02:17:48.301Z",
+  "method": {
+    "selected": "Playwright with the selected test files only, seeded bug on via QA_SEEDED_BUGS",
+    "full": "Playwright with the whole tests/ directory, same bug and same port, fresh server",
+    "miss": "selected run green while full run red",
+    "vacuous": "the change set selected no test files; the selected run verified nothing and is green by construction",
+    "seededSpec": "tests/seeded-bugs.spec.ts is skipped (SEEDED_BUGS empty) so full-suite detection comes from the real regression specs",
+    "integrity": "a run is re-run when the log shows a refused connection or the full suite does not skip exactly 15 seeded tests",
+    "bugTable": "AREA_BUG and SET_BUG in agents/release/execute-all.js"
+  },
+  "bugTable": {
+    "chg-01": {
+      "bug": "BUG-01",
+      "area": "checkout",
+      "why": "app-wide server change; checkout totals is the highest-severity mapped area"
+    },
+    "chg-02": {
+      "bug": "BUG-07",
+      "area": "checkout",
+      "why": "UI change; discount arithmetic is the checkout behaviour the UI renders"
+    },
+    "chg-03": {
+      "bug": "BUG-12",
+      "area": "cart",
+      "why": "cart tests changed"
+    },
+    "chg-04": {
+      "bug": "BUG-02",
+      "area": "auth",
+      "why": "auth tests changed"
+    },
+    "chg-05": {
+      "bug": "BUG-01",
+      "area": "checkout",
+      "why": "checkout tests changed"
+    },
+    "chg-06": {
+      "bug": "BUG-08",
+      "area": "catalog",
+      "why": "catalog tests changed"
+    },
+    "chg-07": {
+      "bug": "BUG-10",
+      "area": "orders",
+      "why": "orders tests changed"
+    },
+    "chg-08": {
+      "bug": "BUG-04",
+      "area": "api",
+      "why": "fixtures decide the api-area runs"
+    },
+    "chg-09": {
+      "bug": "BUG-04",
+      "area": "api",
+      "why": "playwright.config decides the api-area runs"
+    },
+    "chg-10": {
+      "bug": "none",
+      "area": "none",
+      "why": "docs only, no mapped test area"
+    },
+    "chg-11": {
+      "bug": "none",
+      "area": "none",
+      "why": "docs only, no mapped test area"
+    },
+    "chg-12": {
+      "bug": "none",
+      "area": "none",
+      "why": "README only, no mapped test area"
+    },
+    "chg-13": {
+      "bug": "BUG-03",
+      "area": "cart",
+      "why": "server plus cart tests; cart area bug (alternate)"
+    },
+    "chg-14": {
+      "bug": "BUG-08",
+      "area": "catalog",
+      "why": "UI plus catalog tests; catalog area bug"
+    },
+    "chg-15": {
+      "bug": "BUG-04",
+      "area": "api",
+      "why": "fixtures plus checkout tests; fixtures decide"
+    },
+    "chg-16": {
+      "bug": "BUG-12",
+      "area": "cart",
+      "why": "server plus UI; cart totals is a mapped area"
+    },
+    "chg-17": {
+      "bug": "none",
+      "area": "none",
+      "why": "CI workflow, no mapped test area; approval is high risk"
+    },
+    "chg-18": {
+      "bug": "none",
+      "area": "none",
+      "why": "release policy docs, no mapped test area; approval is high risk"
+    },
+    "chg-19": {
+      "bug": "none",
+      "area": "none",
+      "why": "MCP config, no mapped test area; approval is high risk"
+    },
+    "chg-20": {
+      "bug": "BUG-02",
+      "area": "auth",
+      "why": "server plus UI plus fixtures; auth used for coverage"
+    },
+    "chg-21": {
+      "bug": "BUG-07",
+      "area": "checkout",
+      "why": "server plus docs; checkout discount is a mapped area"
+    },
+    "chg-22": {
+      "bug": "BUG-01",
+      "area": "checkout",
+      "why": "UI plus docs; checkout totals is a mapped area"
+    },
+    "chg-23": {
+      "bug": "BUG-03",
+      "area": "cart",
+      "why": "cart tests plus docs"
+    },
+    "chg-24": {
+      "bug": "BUG-02",
+      "area": "auth",
+      "why": "auth tests plus docs"
+    },
+    "chg-25": {
+      "bug": "BUG-07",
+      "area": "checkout",
+      "why": "checkout tests plus docs"
+    },
+    "chg-26": {
+      "bug": "BUG-08",
+      "area": "catalog",
+      "why": "catalog tests plus docs"
+    },
+    "chg-27": {
+      "bug": "BUG-10",
+      "area": "orders",
+      "why": "orders tests plus docs"
+    },
+    "chg-28": {
+      "bug": "BUG-04",
+      "area": "api",
+      "why": "fixtures plus docs"
+    },
+    "chg-29": {
+      "bug": "BUG-04",
+      "area": "api",
+      "why": "playwright.config plus docs"
+    },
+    "chg-30": {
+      "bug": "none",
+      "area": "none",
+      "why": "docs only, no mapped test area"
+    }
+  },
+  "baseline": {
+    "label": "baseline-full",
+    "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+    "port": 4299,
+    "bug": null,
+    "tests": "all",
+    "exitCode": 0,
+    "failed": 0,
+    "passed": 20,
+    "skipped": 15,
+    "flaky": 0,
+    "durationSeconds": 20.1,
+    "green": true,
+    "timedOut": false,
+    "wallSeconds": 21.5,
+    "logPath": "/tmp/opencode/exec30-logs/baseline-full.log",
+    "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (20.1s)",
+    "attempt": 1,
+    "problems": []
+  },
+  "passes": [
+    {
+      "startedAt": 1795139890526,
+      "reason": "initial batch",
+      "wallSeconds": 1177.8
+    }
+  ],
+  "sets": [
+    {
+      "id": "chg-01",
+      "files": [
+        "app/server.js"
+      ],
+      "decision": "executed",
+      "risk": "high",
+      "approver": "human",
+      "areas": [
+        "api",
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-01",
+      "area": "checkout",
+      "rationale": "app-wide server change; checkout totals is the highest-severity mapped area",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-01-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4300,
+        "bug": "BUG-01",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 17,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 31.9,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 33.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-01-selected.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:92:25\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  17 passed (31.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-01-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4300,
+        "bug": "BUG-01",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 17,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 36.4,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 37.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-01-full.log",
+        "tail": "    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  17 passed (36.4s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-02",
+      "files": [
+        "app/public/index.html"
+      ],
+      "decision": "executed",
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "areas": [
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-07",
+      "area": "checkout",
+      "rationale": "UI change; discount arithmetic is the checkout behaviour the UI renders",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-02-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4301,
+        "bug": "BUG-07",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 34.9,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 36.1,
+        "logPath": "/tmp/opencode/exec30-logs/chg-02-selected.log",
+        "tail": "      93 |   });\n        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  18 passed (34.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-02-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4301,
+        "bug": "BUG-07",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 30.2,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 31.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-02-full.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  18 passed (30.2s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-03",
+      "files": [
+        "tests/cart.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "cart"
+      ],
+      "selectedTests": [
+        "tests/cart.spec.ts"
+      ],
+      "bug": "BUG-12",
+      "area": "cart",
+      "rationale": "cart tests changed",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-03-selected",
+        "command": ".bin/playwright test tests/cart.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4302,
+        "bug": "BUG-12",
+        "tests": [
+          "tests/cart.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 4,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 14.1,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 15.5,
+        "logPath": "/tmp/opencode/exec30-logs/chg-03-selected.log",
+        "tail": "    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:41:3 › Cart › REQ-CART-03 remove item empties the cart and totals go to $0.00\n  4 passed (14.1s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-03-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4302,
+        "bug": "BUG-12",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 28.2,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 29.4,
+        "logPath": "/tmp/opencode/exec30-logs/chg-03-full.log",
+        "tail": "    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:41:3 › Cart › REQ-CART-03 remove item empties the cart and totals go to $0.00\n  15 skipped\n  19 passed (28.2s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-04",
+      "files": [
+        "tests/auth.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "auth"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts"
+      ],
+      "bug": "BUG-02",
+      "area": "auth",
+      "rationale": "auth tests changed",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-04-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4303,
+        "bug": "BUG-02",
+        "tests": [
+          "tests/auth.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 3,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 11.4,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 12.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-04-selected.log",
+        "tail": "    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  3 passed (11.4s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-04-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4303,
+        "bug": "BUG-02",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 30.7,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 32,
+        "logPath": "/tmp/opencode/exec30-logs/chg-04-full.log",
+        "tail": "    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  15 skipped\n  19 passed (30.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-05",
+      "files": [
+        "tests/checkout.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "checkout"
+      ],
+      "selectedTests": [
+        "tests/checkout.spec.ts"
+      ],
+      "bug": "BUG-01",
+      "area": "checkout",
+      "rationale": "checkout tests changed",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-05-selected",
+        "command": ".bin/playwright test tests/checkout.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4304,
+        "bug": "BUG-01",
+        "tests": [
+          "tests/checkout.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 2,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 19.9,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 21.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-05-selected.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:92:25\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  2 passed (19.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-05-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4304,
+        "bug": "BUG-01",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 17,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 35.5,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 36.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-05-full.log",
+        "tail": "    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  17 passed (35.5s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-06",
+      "files": [
+        "tests/catalog.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "catalog"
+      ],
+      "selectedTests": [
+        "tests/catalog.spec.ts"
+      ],
+      "bug": "BUG-08",
+      "area": "catalog",
+      "rationale": "catalog tests changed",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-06-selected",
+        "command": ".bin/playwright test tests/catalog.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4305,
+        "bug": "BUG-08",
+        "tests": [
+          "tests/catalog.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 3,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 19.3,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 20.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-06-selected.log",
+        "tail": "    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  3 passed (19.3s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-06-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4305,
+        "bug": "BUG-08",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 36.2,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 37.6,
+        "logPath": "/tmp/opencode/exec30-logs/chg-06-full.log",
+        "tail": "    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  15 skipped\n  18 passed (36.2s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-07",
+      "files": [
+        "tests/orders.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-10",
+      "area": "orders",
+      "rationale": "orders tests changed",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-07-selected",
+        "command": ".bin/playwright test tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4306,
+        "bug": "BUG-10",
+        "tests": [
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 1,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 2.7,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 4.2,
+        "logPath": "/tmp/opencode/exec30-logs/chg-07-selected.log",
+        "tail": "Running 1 test using 1 worker\n  ✓  1 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (791ms)\n  1 passed (2.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-07-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4306,
+        "bug": "BUG-10",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 19.1,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 20.4,
+        "logPath": "/tmp/opencode/exec30-logs/chg-07-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (19.1s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-08",
+      "files": [
+        "tests/fixtures.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "api"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-04",
+      "area": "api",
+      "rationale": "fixtures decide the api-area runs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-08-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4307,
+        "bug": "BUG-04",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 16.3,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 17.6,
+        "logPath": "/tmp/opencode/exec30-logs/chg-08-selected.log",
+        "tail": "  ✓  10 [chromium] › tests/catalog.spec.ts:13:3 › Catalog › REQ-CAT-01 product list shows all 6 products (803ms)\n  ✓  11 [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card (897ms)\n  ✓  12 [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop) (836ms)\n  ✓  13 [chromium] › tests/catalog.spec.ts:46:3 › Catalog › REQ-CAT-05 a search with no matches shows an empty state and no error (756ms)\n  ✓  14 [chromium] › tests/catalog.spec.ts:59:3 › Catalog › REQ-CAT-04 unknown product id returns 404 via API (64ms)\n  ✓  15 [chromium] › tests/checkout.spec.ts:4:3 › Checkout › REQ-CHK-01 total is subtotal plus 8% tax for a two-item cart (998ms)\n  ✓  16 [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal (2.3s)\n  ✓  17 [chromium] › tests/checkout.spec.ts:33:3 › Checkout › REQ-CHK-03 empty cart checkout returns 400 (87ms)\n  ✓  18 [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total (895ms)\n  ✓  19 [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal (66ms)\n  ✓  20 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (639ms)\n  20 passed (16.3s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-08-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4307,
+        "bug": "BUG-04",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 22.8,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 24.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-08-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (22.8s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-09",
+      "files": [
+        "playwright.config.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "api"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-04",
+      "area": "api",
+      "rationale": "playwright.config decides the api-area runs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-09-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4308,
+        "bug": "BUG-04",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 14.9,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 16,
+        "logPath": "/tmp/opencode/exec30-logs/chg-09-selected.log",
+        "tail": "  ✓  10 [chromium] › tests/catalog.spec.ts:13:3 › Catalog › REQ-CAT-01 product list shows all 6 products (948ms)\n  ✓  11 [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card (877ms)\n  ✓  12 [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop) (740ms)\n  ✓  13 [chromium] › tests/catalog.spec.ts:46:3 › Catalog › REQ-CAT-05 a search with no matches shows an empty state and no error (897ms)\n  ✓  14 [chromium] › tests/catalog.spec.ts:59:3 › Catalog › REQ-CAT-04 unknown product id returns 404 via API (80ms)\n  ✓  15 [chromium] › tests/checkout.spec.ts:4:3 › Checkout › REQ-CHK-01 total is subtotal plus 8% tax for a two-item cart (716ms)\n  ✓  16 [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal (889ms)\n  ✓  17 [chromium] › tests/checkout.spec.ts:33:3 › Checkout › REQ-CHK-03 empty cart checkout returns 400 (76ms)\n  ✓  18 [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total (898ms)\n  ✓  19 [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal (75ms)\n  ✓  20 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (595ms)\n  20 passed (14.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-09-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4308,
+        "bug": "BUG-04",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 20.5,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 21.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-09-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (20.5s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-10",
+      "files": [
+        "docs/requirements.md"
+      ],
+      "decision": "no-tests-required",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "docs only, no mapped test area",
+      "note": "docs only, no mapped test area; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-11",
+      "files": [
+        "docs/assertion-standard.md"
+      ],
+      "decision": "no-tests-required",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "docs only, no mapped test area",
+      "note": "docs only, no mapped test area; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-12",
+      "files": [
+        "README.md"
+      ],
+      "decision": "no-tests-required",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "README only, no mapped test area",
+      "note": "README only, no mapped test area; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-13",
+      "files": [
+        "app/server.js",
+        "tests/cart.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "high",
+      "approver": "human",
+      "areas": [
+        "api",
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-03",
+      "area": "cart",
+      "rationale": "server plus cart tests; cart area bug (alternate)",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-13-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4312,
+        "bug": "BUG-03",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 17.8,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 20.1,
+        "logPath": "/tmp/opencode/exec30-logs/chg-13-selected.log",
+        "tail": "      74 |\n      75 |     const cartResponse = await request.get('/api/cart', { headers: auth });\n        at /tmp/opencode/wt-c/tests/cart.spec.ts:72:31\n    Error Context: test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:56:3 › Cart › REQ-CART-04 qty 0 via API returns 400 and leaves the cart unchanged\n  19 passed (17.8s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-13-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4312,
+        "bug": "BUG-03",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 21.5,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 22.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-13-full.log",
+        "tail": "      75 |     const cartResponse = await request.get('/api/cart', { headers: auth });\n        at /tmp/opencode/wt-c/tests/cart.spec.ts:72:31\n    Error Context: test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:56:3 › Cart › REQ-CART-04 qty 0 via API returns 400 and leaves the cart unchanged\n  15 skipped\n  19 passed (21.5s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-14",
+      "files": [
+        "app/public/index.html",
+        "tests/catalog.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "areas": [
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-08",
+      "area": "catalog",
+      "rationale": "UI plus catalog tests; catalog area bug",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-14-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4313,
+        "bug": "BUG-08",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 31.4,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 32.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-14-selected.log",
+        "tail": "    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  18 passed (31.4s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-14-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4313,
+        "bug": "BUG-08",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 34.3,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 35.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-14-full.log",
+        "tail": "    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  15 skipped\n  18 passed (34.3s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-15",
+      "files": [
+        "tests/fixtures.ts",
+        "tests/checkout.spec.ts"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "api",
+        "checkout"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-04",
+      "area": "api",
+      "rationale": "fixtures plus checkout tests; fixtures decide",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-15-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4314,
+        "bug": "BUG-04",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 15.7,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 17,
+        "logPath": "/tmp/opencode/exec30-logs/chg-15-selected.log",
+        "tail": "  ✓  10 [chromium] › tests/catalog.spec.ts:13:3 › Catalog › REQ-CAT-01 product list shows all 6 products (1.2s)\n  ✓  11 [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card (865ms)\n  ✓  12 [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop) (835ms)\n  ✓  13 [chromium] › tests/catalog.spec.ts:46:3 › Catalog › REQ-CAT-05 a search with no matches shows an empty state and no error (880ms)\n  ✓  14 [chromium] › tests/catalog.spec.ts:59:3 › Catalog › REQ-CAT-04 unknown product id returns 404 via API (53ms)\n  ✓  15 [chromium] › tests/checkout.spec.ts:4:3 › Checkout › REQ-CHK-01 total is subtotal plus 8% tax for a two-item cart (779ms)\n  ✓  16 [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal (936ms)\n  ✓  17 [chromium] › tests/checkout.spec.ts:33:3 › Checkout › REQ-CHK-03 empty cart checkout returns 400 (88ms)\n  ✓  18 [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total (847ms)\n  ✓  19 [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal (86ms)\n  ✓  20 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (613ms)\n  20 passed (15.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-15-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4314,
+        "bug": "BUG-04",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 20.1,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 21.6,
+        "logPath": "/tmp/opencode/exec30-logs/chg-15-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (20.1s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-16",
+      "files": [
+        "app/server.js",
+        "app/public/index.html"
+      ],
+      "decision": "executed",
+      "risk": "high",
+      "approver": "human",
+      "areas": [
+        "api",
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-12",
+      "area": "cart",
+      "rationale": "server plus UI; cart totals is a mapped area",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-16-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4315,
+        "bug": "BUG-12",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 22.3,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 23.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-16-selected.log",
+        "tail": "    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:41:3 › Cart › REQ-CART-03 remove item empties the cart and totals go to $0.00\n  19 passed (22.3s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-16-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4315,
+        "bug": "BUG-12",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 32,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 33.4,
+        "logPath": "/tmp/opencode/exec30-logs/chg-16-full.log",
+        "tail": "    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-03-remo-9261d--cart-and-totals-go-to-0-00-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:41:3 › Cart › REQ-CART-03 remove item empties the cart and totals go to $0.00\n  15 skipped\n  19 passed (32.0s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-17",
+      "files": [
+        ".github/workflows/ci.yml"
+      ],
+      "decision": "no-tests-required",
+      "risk": "high",
+      "approver": "human",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "CI workflow, no mapped test area; approval is high risk",
+      "note": "CI workflow, no mapped test area; approval is high risk; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-18",
+      "files": [
+        "docs/release-policy.md"
+      ],
+      "decision": "no-tests-required",
+      "risk": "high",
+      "approver": "human",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "release policy docs, no mapped test area; approval is high risk",
+      "note": "release policy docs, no mapped test area; approval is high risk; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-19",
+      "files": [
+        "mcp/servers.json"
+      ],
+      "decision": "no-tests-required",
+      "risk": "high",
+      "approver": "human",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "MCP config, no mapped test area; approval is high risk",
+      "note": "MCP config, no mapped test area; approval is high risk; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    },
+    {
+      "id": "chg-20",
+      "files": [
+        "app/server.js",
+        "app/public/index.html",
+        "tests/fixtures.ts"
+      ],
+      "decision": "executed",
+      "risk": "high",
+      "approver": "human",
+      "areas": [
+        "api",
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-02",
+      "area": "auth",
+      "rationale": "server plus UI plus fixtures; auth used for coverage",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-20-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4319,
+        "bug": "BUG-02",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 21.5,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 23,
+        "logPath": "/tmp/opencode/exec30-logs/chg-20-selected.log",
+        "tail": "    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  19 passed (21.5s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-20-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4319,
+        "bug": "BUG-02",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 30,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 31.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-20-full.log",
+        "tail": "    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  15 skipped\n  19 passed (30.0s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-21",
+      "files": [
+        "app/server.js",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "high",
+      "approver": "human",
+      "areas": [
+        "api",
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-07",
+      "area": "checkout",
+      "rationale": "server plus docs; checkout discount is a mapped area",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-21-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4320,
+        "bug": "BUG-07",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 23.4,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 24.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-21-selected.log",
+        "tail": "      93 |   });\n        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  18 passed (23.4s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-21-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4320,
+        "bug": "BUG-07",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 32.7,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 34.1,
+        "logPath": "/tmp/opencode/exec30-logs/chg-21-full.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  18 passed (32.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-22",
+      "files": [
+        "app/public/index.html",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "medium",
+      "approver": "human-on-evidence-pack",
+      "areas": [
+        "auth",
+        "cart",
+        "catalog",
+        "checkout",
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-01",
+      "area": "checkout",
+      "rationale": "UI plus docs; checkout totals is a mapped area",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-22-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4321,
+        "bug": "BUG-01",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 17,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 31.6,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 32.9,
+        "logPath": "/tmp/opencode/exec30-logs/chg-22-selected.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:92:25\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  17 passed (31.6s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-22-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4321,
+        "bug": "BUG-01",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 3,
+        "passed": 17,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 38.9,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 40.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-22-full.log",
+        "tail": "    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  3 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  17 passed (38.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-23",
+      "files": [
+        "tests/cart.spec.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "cart"
+      ],
+      "selectedTests": [
+        "tests/cart.spec.ts"
+      ],
+      "bug": "BUG-03",
+      "area": "cart",
+      "rationale": "cart tests plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-23-selected",
+        "command": ".bin/playwright test tests/cart.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4322,
+        "bug": "BUG-03",
+        "tests": [
+          "tests/cart.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 4,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 7.2,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 8.6,
+        "logPath": "/tmp/opencode/exec30-logs/chg-23-selected.log",
+        "tail": "      74 |\n      75 |     const cartResponse = await request.get('/api/cart', { headers: auth });\n        at /tmp/opencode/wt-c/tests/cart.spec.ts:72:31\n    Error Context: test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:56:3 › Cart › REQ-CART-04 qty 0 via API returns 400 and leaves the cart unchanged\n  4 passed (7.2s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-23-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4322,
+        "bug": "BUG-03",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 22.6,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 23.8,
+        "logPath": "/tmp/opencode/exec30-logs/chg-23-full.log",
+        "tail": "      75 |     const cartResponse = await request.get('/api/cart', { headers: auth });\n        at /tmp/opencode/wt-c/tests/cart.spec.ts:72:31\n    Error Context: test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/cart-Cart-REQ-CART-04-qty--4fa34-d-leaves-the-cart-unchanged-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/cart.spec.ts:56:3 › Cart › REQ-CART-04 qty 0 via API returns 400 and leaves the cart unchanged\n  15 skipped\n  19 passed (22.6s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-24",
+      "files": [
+        "tests/auth.spec.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "auth"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts"
+      ],
+      "bug": "BUG-02",
+      "area": "auth",
+      "rationale": "auth tests plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-24-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4323,
+        "bug": "BUG-02",
+        "tests": [
+          "tests/auth.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 3,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 11.4,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 12.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-24-selected.log",
+        "tail": "    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  3 passed (11.4s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-24-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4323,
+        "bug": "BUG-02",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 1,
+        "passed": 19,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 27.1,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 28.5,
+        "logPath": "/tmp/opencode/exec30-logs/chg-24-full.log",
+        "tail": "    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/auth-Authentication-REQ-AUTH-03-empty-password-is-rejected-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  1 failed\n    [chromium] › tests/auth.spec.ts:23:3 › Authentication › REQ-AUTH-03 empty password is rejected ─\n  15 skipped\n  19 passed (27.1s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-25",
+      "files": [
+        "tests/checkout.spec.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "checkout"
+      ],
+      "selectedTests": [
+        "tests/checkout.spec.ts"
+      ],
+      "bug": "BUG-07",
+      "area": "checkout",
+      "rationale": "checkout tests plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-25-selected",
+        "command": ".bin/playwright test tests/checkout.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4324,
+        "bug": "BUG-07",
+        "tests": [
+          "tests/checkout.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 3,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 17.8,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 19.2,
+        "logPath": "/tmp/opencode/exec30-logs/chg-25-selected.log",
+        "tail": "      93 |   });\n        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  3 passed (17.8s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-25-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4324,
+        "bug": "BUG-07",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 32.6,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 33.9,
+        "logPath": "/tmp/opencode/exec30-logs/chg-25-full.log",
+        "tail": "        at /tmp/opencode/wt-c/tests/checkout.spec.ts:90:28\n    Error Context: test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/error-context.md\n    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/checkout-Checkout-REQ-CHK--20922-t-is-capped-at-the-subtotal-chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal\n    [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal\n  15 skipped\n  18 passed (32.6s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-26",
+      "files": [
+        "tests/catalog.spec.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "catalog"
+      ],
+      "selectedTests": [
+        "tests/catalog.spec.ts"
+      ],
+      "bug": "BUG-08",
+      "area": "catalog",
+      "rationale": "catalog tests plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-26-selected",
+        "command": ".bin/playwright test tests/catalog.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4325,
+        "bug": "BUG-08",
+        "tests": [
+          "tests/catalog.spec.ts"
+        ],
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 3,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 22,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 23.3,
+        "logPath": "/tmp/opencode/exec30-logs/chg-26-selected.log",
+        "tail": "    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/video.webm\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  3 passed (22.0s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-26-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4325,
+        "bug": "BUG-08",
+        "tests": "all",
+        "exitCode": 1,
+        "failed": 2,
+        "passed": 18,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 40.8,
+        "green": false,
+        "timedOut": false,
+        "wallSeconds": 42.5,
+        "logPath": "/tmp/opencode/exec30-logs/chg-26-full.log",
+        "tail": "    ────────────────────────────────────────────────────────────────────────────────────────────────\n    Error Context: test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/error-context.md\n    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────\n    test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    Usage:\n        npx playwright show-trace test-results/catalog-Catalog-REQ-CAT-03-e4126-ve-LAPTOP-finds-the-laptop--chromium/trace.zip\n    ────────────────────────────────────────────────────────────────────────────────────────────────\n  2 failed\n    [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card\n    [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop)\n  15 skipped\n  18 passed (40.8s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": true,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-27",
+      "files": [
+        "tests/orders.spec.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "orders"
+      ],
+      "selectedTests": [
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-10",
+      "area": "orders",
+      "rationale": "orders tests plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-27-selected",
+        "command": ".bin/playwright test tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4326,
+        "bug": "BUG-10",
+        "tests": [
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 1,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 2.9,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 4.5,
+        "logPath": "/tmp/opencode/exec30-logs/chg-27-selected.log",
+        "tail": "Running 1 test using 1 worker\n  ✓  1 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (896ms)\n  1 passed (2.9s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-27-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4326,
+        "bug": "BUG-10",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 33,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 34.4,
+        "logPath": "/tmp/opencode/exec30-logs/chg-27-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (33.0s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-28",
+      "files": [
+        "tests/fixtures.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "api"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-04",
+      "area": "api",
+      "rationale": "fixtures plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-28-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4327,
+        "bug": "BUG-04",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 15.7,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 17.1,
+        "logPath": "/tmp/opencode/exec30-logs/chg-28-selected.log",
+        "tail": "  ✓  10 [chromium] › tests/catalog.spec.ts:13:3 › Catalog › REQ-CAT-01 product list shows all 6 products (769ms)\n  ✓  11 [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card (763ms)\n  ✓  12 [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop) (834ms)\n  ✓  13 [chromium] › tests/catalog.spec.ts:46:3 › Catalog › REQ-CAT-05 a search with no matches shows an empty state and no error (722ms)\n  ✓  14 [chromium] › tests/catalog.spec.ts:59:3 › Catalog › REQ-CAT-04 unknown product id returns 404 via API (70ms)\n  ✓  15 [chromium] › tests/checkout.spec.ts:4:3 › Checkout › REQ-CHK-01 total is subtotal plus 8% tax for a two-item cart (817ms)\n  ✓  16 [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal (1.0s)\n  ✓  17 [chromium] › tests/checkout.spec.ts:33:3 › Checkout › REQ-CHK-03 empty cart checkout returns 400 (125ms)\n  ✓  18 [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total (1.1s)\n  ✓  19 [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal (89ms)\n  ✓  20 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (556ms)\n  20 passed (15.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-28-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4327,
+        "bug": "BUG-04",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 24.5,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 26.2,
+        "logPath": "/tmp/opencode/exec30-logs/chg-28-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (24.5s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-29",
+      "files": [
+        "playwright.config.ts",
+        "docs/progress.md"
+      ],
+      "decision": "executed",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [
+        "api"
+      ],
+      "selectedTests": [
+        "tests/auth.spec.ts",
+        "tests/cart.spec.ts",
+        "tests/catalog.spec.ts",
+        "tests/checkout.spec.ts",
+        "tests/orders.spec.ts"
+      ],
+      "bug": "BUG-04",
+      "area": "api",
+      "rationale": "playwright.config plus docs",
+      "selectedRun": {
+        "vacuous": false,
+        "executed": true,
+        "label": "chg-29-selected",
+        "command": ".bin/playwright test tests/auth.spec.ts tests/cart.spec.ts tests/catalog.spec.ts tests/checkout.spec.ts tests/orders.spec.ts --reporter=list,json --workers=1 --retries=0",
+        "port": 4328,
+        "bug": "BUG-04",
+        "tests": [
+          "tests/auth.spec.ts",
+          "tests/cart.spec.ts",
+          "tests/catalog.spec.ts",
+          "tests/checkout.spec.ts",
+          "tests/orders.spec.ts"
+        ],
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0,
+        "flaky": 0,
+        "durationSeconds": 14.3,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 15.7,
+        "logPath": "/tmp/opencode/exec30-logs/chg-29-selected.log",
+        "tail": "  ✓  10 [chromium] › tests/catalog.spec.ts:13:3 › Catalog › REQ-CAT-01 product list shows all 6 products (766ms)\n  ✓  11 [chromium] › tests/catalog.spec.ts:24:3 › Catalog › REQ-CAT-02 search \"lamp\" filters to one card (703ms)\n  ✓  12 [chromium] › tests/catalog.spec.ts:35:3 › Catalog › REQ-CAT-03 search is case-insensitive (\"LAPTOP\" finds the laptop) (825ms)\n  ✓  13 [chromium] › tests/catalog.spec.ts:46:3 › Catalog › REQ-CAT-05 a search with no matches shows an empty state and no error (791ms)\n  ✓  14 [chromium] › tests/catalog.spec.ts:59:3 › Catalog › REQ-CAT-04 unknown product id returns 404 via API (64ms)\n  ✓  15 [chromium] › tests/checkout.spec.ts:4:3 › Checkout › REQ-CHK-01 total is subtotal plus 8% tax for a two-item cart (798ms)\n  ✓  16 [chromium] › tests/checkout.spec.ts:15:3 › Checkout › REQ-CHK-02 SAVE10 takes 10% off the subtotal (956ms)\n  ✓  17 [chromium] › tests/checkout.spec.ts:33:3 › Checkout › REQ-CHK-03 empty cart checkout returns 400 (65ms)\n  ✓  18 [chromium] › tests/checkout.spec.ts:49:3 › Checkout › REQ-CHK-04 a placed order appears in #/orders with the same total (945ms)\n  ✓  19 [chromium] › tests/checkout.spec.ts:67:3 › Checkout › REQ-CHK-05 discount is capped at the subtotal (80ms)\n  ✓  20 [chromium] › tests/orders.spec.ts:38:3 › Orders › REQ-ORD-01 order history lists the newest order first (540ms)\n  20 passed (14.3s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "fullRun": {
+        "label": "chg-29-full",
+        "command": ".bin/playwright test --reporter=list,json --workers=1 --retries=0",
+        "port": 4328,
+        "bug": "BUG-04",
+        "tests": "all",
+        "exitCode": 0,
+        "failed": 0,
+        "passed": 20,
+        "skipped": 15,
+        "flaky": 0,
+        "durationSeconds": 21.7,
+        "green": true,
+        "timedOut": false,
+        "wallSeconds": 22.9,
+        "logPath": "/tmp/opencode/exec30-logs/chg-29-full.log",
+        "tail": "  -  26 [chromium] › tests/seeded-bugs.spec.ts:141:3 › Seeded bugs › BUG-06 checkout button label is \"Proceed to payment\"\n  -  27 [chromium] › tests/seeded-bugs.spec.ts:157:3 › Seeded bugs › BUG-07 SAVE10 takes a flat $10\n  -  28 [chromium] › tests/seeded-bugs.spec.ts:178:3 › Seeded bugs › BUG-08 \"LAPTOP\" finds nothing\n  -  29 [chromium] › tests/seeded-bugs.spec.ts:190:3 › Seeded bugs › BUG-09 out-of-stock p6 can be added\n  -  30 [chromium] › tests/seeded-bugs.spec.ts:209:3 › Seeded bugs › BUG-10 second user sees the demo user order in #/orders\n  -  31 [chromium] › tests/seeded-bugs.spec.ts:247:3 › Seeded bugs › BUG-11 qty 0 leaves the old total after removing the last item\n  -  32 [chromium] › tests/seeded-bugs.spec.ts:276:3 › Seeded bugs › BUG-12 removing the last item leaves the old total\n  -  33 [chromium] › tests/seeded-bugs.spec.ts:304:3 › Seeded bugs › BUG-13 empty checkout returns 201\n  -  34 [chromium] › tests/seeded-bugs.spec.ts:323:3 › Seeded bugs › BUG-14 login error contains \"/app/server.js\"\n  -  35 [chromium] › tests/seeded-bugs.spec.ts:336:3 › Seeded bugs › BUG-15 total renders three decimals\n  15 skipped\n  20 passed (21.7s)",
+        "attempt": 1,
+        "problems": []
+      },
+      "caughtByFull": false,
+      "missedVsFull": false,
+      "integrity": {
+        "selected": [],
+        "full": []
+      }
+    },
+    {
+      "id": "chg-30",
+      "files": [
+        "docs/requirements.md",
+        "docs/progress.md"
+      ],
+      "decision": "no-tests-required",
+      "risk": "low",
+      "approver": "reviewer",
+      "areas": [],
+      "selectedTests": [],
+      "bug": null,
+      "area": "none",
+      "rationale": "docs only, no mapped test area",
+      "note": "docs only, no mapped test area; the selection maps no tests and the suite has none for these files",
+      "missedVsFull": false
+    }
+  ],
+  "summary": {
+    "sets": 30,
+    "executed": 23,
+    "noTestsRequired": 7,
+    "withoutSelectedTests": 0,
+    "missedDefects": 0,
+    "missedIds": [],
+    "vacuousMissIds": [],
+    "detectedByFull": 16,
+    "undetectedByFull": [
+      "chg-07",
+      "chg-08",
+      "chg-09",
+      "chg-15",
+      "chg-27",
+      "chg-28",
+      "chg-29"
+    ],
+    "selectedRuns": 23,
+    "fullRuns": 23,
+    "runSeconds": 1156,
+    "wallSeconds": 1177.8
+  }
+}
