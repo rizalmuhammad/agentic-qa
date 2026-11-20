@@ -37,6 +37,10 @@ function areasFor(files) {
   for (const file of files) {
     const mapped = FILE_AREAS[file];
     if (mapped) mapped.forEach((a) => areas.add(a));
+    // A changed spec file always impacts itself. Without this, editing a test
+    // selected no tests at all and every such change set was a vacuous green.
+    const spec = /^tests\/([a-z0-9-]+)\.spec\.ts$/.exec(file);
+    if (spec && AREA_TESTS[spec[1]]) areas.add(spec[1]);
   }
   return [...areas].sort();
 }
@@ -45,6 +49,8 @@ function selectTests(files) {
   const areas = areasFor(files);
   const tests = new Set();
   for (const area of areas) (AREA_TESTS[area] || []).forEach((t) => tests.add(t));
+  // The changed spec is itself impacted, even if its area map is missing.
+  for (const file of files) if (/^tests\/[a-z0-9-]+\.spec\.ts$/.test(file)) tests.add(file);
   return { areas, tests: [...tests].sort() };
 }
 

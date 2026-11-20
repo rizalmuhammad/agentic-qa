@@ -58,3 +58,23 @@ Sharding is Playwright's `--shard` flag, measured locally. It is not wired into 
 ## Verdict
 
 The phase meets its gate on paper and on the two executed comparisons, but the evidence is thinner than the plan intends. Recorded as such rather than rounded up.
+
+## Full 30-set execution (2026-11-20)
+
+The first run missed 8 defects, all on change sets that edit a spec file. The cause was in the map, not the tests: `select.js` had no entry for `tests/*.spec.ts`, so editing a test selected no tests and every such run was a vacuous green.
+
+After mapping a changed spec to itself:
+
+| Metric | Before | After |
+|---|---|---|
+| Sets executed | 23 | 23 |
+| Vacuous greens | 8 | 0 |
+| Missed defects | 8 | 0 |
+| Selected runs | 13 | 23 |
+| Wall time | 932 s | 1178 s |
+
+Seven sets required no tests (docs only) and are recorded that way rather than counted as passes.
+
+**Not caught by the full suite either:** chg-07, chg-08, chg-09, chg-15, chg-27, chg-28, chg-29. These are coverage gaps in the suite, not selection gaps: the impacted run and the full run agree. BUG-04 is intermittent by design; BUG-10 (cross-user orders) has no test.
+
+That distinction matters: selection can only lose a defect the full suite would have caught, and here it lost none.

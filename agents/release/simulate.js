@@ -49,13 +49,21 @@ function requiredTests(files) {
   return [...required].sort();
 }
 
+/**
+ * The 30 change sets, in one place: 20 base changes plus the first ten paired
+ * with a doc change. execute-all.js requires this so the executed batch and the
+ * simulated batch can never drift apart.
+ */
+function buildChanges() {
+  const changes = [...CHANGES];
+  for (let i = 0; i < 10; i += 1) changes.push([...CHANGES[i], 'docs/progress.md']);
+  return changes;
+}
+
 function main() {
   fs.mkdirSync(OUT, { recursive: true });
 
-  // Expand 20 base changes into 30 by pairing the last ten with a doc change,
-  // so the batch has the size the plan asks for without inventing behaviour.
-  const changes = [...CHANGES];
-  for (let i = 0; i < 10; i += 1) changes.push([...CHANGES[i], 'docs/progress.md']);
+  const changes = buildChanges();
 
   const results = changes.map((files, index) => {
     const d = decide(files);
@@ -88,4 +96,6 @@ function main() {
   if (bad.length) console.log('selection gaps:', JSON.stringify(bad.map((b) => ({ id: b.id, files: b.files, missing: b.missing })), null, 1));
 }
 
-main();
+module.exports = { buildChanges };
+
+if (require.main === module) main();

@@ -62,7 +62,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/cart.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -74,7 +76,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/auth.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -86,7 +90,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/checkout.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -98,7 +104,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/catalog.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -110,7 +118,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/orders.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -419,7 +429,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/cart.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -432,7 +444,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/auth.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -445,7 +459,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/checkout.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -458,7 +474,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/catalog.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
@@ -471,7 +489,9 @@
       ],
       "risk": "low",
       "approver": "reviewer",
-      "selected": [],
+      "selected": [
+        "tests/orders.spec.ts"
+      ],
       "required": [],
       "missing": [],
       "ok": true
