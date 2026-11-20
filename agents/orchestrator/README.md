@@ -8,8 +8,21 @@ The smallest possible agent loop: read one known case, generate one Playwright t
 2. Sends the Generator prompt with the contract, the assertion standard, and a passing spec as style reference.
 3. Requires JSON back: `{"path": "tests/generated/<slug>.spec.ts", "content": "..."}`.
 4. Enforces the rules in code: the path must be under `tests/generated/`, the requirement id must be in the title, there must be an assertion, and the file may not use `waitForTimeout`, `skip`, `only`, or `force: true`.
+   The `self-fixture-assertion` rule also rejects an assertion about arithmetic or modulo on the test's own setup (for example `expect((subtotalCents * 8) % 100).not.toBe(0)`); the test must assert a value the app returns.
 5. Writes the file, runs it with Playwright, and records the result.
 6. Deletes nothing: generated files stay in `tests/generated/`, which is gitignored, so a human can read exactly what ran.
+
+## Two-step mode
+
+`--two-step` splits generation for long cases. First the model returns a short plan,
+`{"assertions":[...],"setup":[...]}`, capped at 1500 tokens; then the Generator
+receives that plan and writes the test. The plan is validated for shape (a
+non-empty `assertions` array and a `setup` array), and the test goes through the
+same validator, repair attempt, execution and scoring as one-step mode. The plan
+is written to `runs/plans/<runId>-<timestamp>.json`; the record adds `mode`,
+`plan` and `planFile` fields.
+
+`--port` selects the app port for the Playwright run.
 
 ## Stop rule
 

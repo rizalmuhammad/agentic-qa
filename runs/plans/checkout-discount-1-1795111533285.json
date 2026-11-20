@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "order-confirmation shows subtotal \"$75.00\" (p3 $45.00 x1 + p5 $15.00 x2)",
+    "order-confirmation shows discount \"$7.50\" (10% of subtotal)",
+    "order-confirmation shows final total \"$73.50\" (subtotal + $6.00 tax − $7.50 discount)"
+  ],
+  "setup": [
+    "login(page) to sign in as demo@shop.test via #/login",
+    "addToCartViaApi(page, \"p3\", 1) — Lumen Desk Lamp $45.00",
+    "addToCartViaApi(page, \"p5\", 2) — Nomad Mug $15.00 qty 2",
+    "open #/checkout, fill discount-code with SAVE10, click place-order, wait for order-confirmation"
+  ]
+}

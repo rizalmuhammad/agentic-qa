@@ -1,0 +1,20 @@
+running checkout-discount-1 (two-step)
+  correct (valid=true passed=true attempts=1)
+running checkout-discount-2 (two-step)
+  correct (valid=true passed=true attempts=1)
+running checkout-discount-3 (two-step)
+  incorrect (valid=true passed=false attempts=1)
+running checkout-discount-4 (two-step)
+  correct (valid=true passed=true attempts=1)
+running checkout-discount-5 (two-step)
+  correct (valid=true passed=true attempts=1)
+{
+  "logFile": "runs/2026-11-19T18-05-20-208Z.jsonl",
+  "mode": "two-step",
+  "runs": 5,
+  "correct": 4,
+  "correctRate": 0.8,
+  "longestCorrectStreak": 2,
+  "tokens": 51512,
+  "meanLatencyMs": 47165
+}

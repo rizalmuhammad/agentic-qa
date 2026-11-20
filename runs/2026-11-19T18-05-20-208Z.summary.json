@@ -1,0 +1,10 @@
+{
+  "logFile": "runs/2026-11-19T18-05-20-208Z.jsonl",
+  "mode": "two-step",
+  "runs": 5,
+  "correct": 4,
+  "correctRate": 0.8,
+  "longestCorrectStreak": 2,
+  "tokens": 51512,
+  "meanLatencyMs": 47165
+}

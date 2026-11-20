@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "#/checkout order-total shows $64.80 before discount",
+    "order-confirmation discount shows $6.00",
+    "order-confirmation final total shows $58.80"
+  ],
+  "setup": [
+    "login(page)",
+    "addToCartViaApi(page, \"p3\", 1)",
+    "addToCartViaApi(page, \"p5\", 1)",
+    "goto #/checkout, fill discount-code with SAVE10, click place-order"
+  ]
+}

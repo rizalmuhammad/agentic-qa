@@ -1,0 +1,15 @@
+{
+  "assertions": [
+    "order-confirmation is visible after clicking place-order",
+    "discount on order-confirmation reads $7.50",
+    "final total on order-confirmation reads $73.50",
+    "order-total on #/checkout shows pre-discount $81.00"
+  ],
+  "setup": [
+    "login(page) as demo@shop.test",
+    "addToCartViaApi(page, \"p3\", 1)",
+    "addToCartViaApi(page, \"p5\", 2)",
+    "goto #/checkout",
+    "fill discount-code with SAVE10 and click place-order"
+  ]
+}

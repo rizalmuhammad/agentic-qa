@@ -1,0 +1,10 @@
+{
+  "logFile": "runs/2026-11-20T01-57-16-338Z-twostep.jsonl",
+  "mode": "two-step",
+  "runs": 5,
+  "correct": 5,
+  "correctRate": 1,
+  "longestCorrectStreak": 5,
+  "tokens": 45332,
+  "meanLatencyMs": 82290
+}

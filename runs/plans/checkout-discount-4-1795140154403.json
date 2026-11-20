@@ -1,0 +1,13 @@
+{
+  "assertions": [
+    "order-confirmation shows discount $6.00",
+    "order-confirmation shows tax $4.80",
+    "order-confirmation shows total $58.80"
+  ],
+  "setup": [
+    "login(page) as demo@shop.test / demo1234",
+    "addToCartViaApi(page, 'p3', 1) and addToCartViaApi(page, 'p5', 1)",
+    "goto #/checkout, confirm order-total shows $64.80 (pre-discount baseline)",
+    "fill discount-code with SAVE10, click place-order"
+  ]
+}

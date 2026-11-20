@@ -1,0 +1,15 @@
+{
+  "assertions": [
+    "order-confirmation shows discount \"$13.40\" (10% of the $134.00 subtotal)",
+    "order-confirmation shows final total \"$131.32\" ($134.00 subtotal + $10.72 tax - $13.40 discount)",
+    "before placing the order, order-total on #/checkout shows \"$144.72\" (pre-discount subtotal + tax)"
+  ],
+  "setup": [
+    "call login(page) to sign in as demo@shop.test via #/login",
+    "call addToCartViaApi(page, \"p2\", 1) to add Trailback Backpack ($89.00)",
+    "call addToCartViaApi(page, \"p3\", 1) to add Lumen Desk Lamp ($45.00)",
+    "goto #/checkout and read order-total (pre-discount)",
+    "type \"SAVE10\" into discount-code",
+    "click place-order and wait for order-confirmation"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "cases": 1,
+  "detected": 0,
+  "missed": 1,
+  "misclassified": 0,
+  "logFile": "runs/phase3/2026-11-19T17-49-19-130Z.jsonl"
+}
