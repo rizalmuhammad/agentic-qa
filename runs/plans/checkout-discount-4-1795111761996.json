@@ -1,0 +1,15 @@
+{
+  "assertions": [
+    "checkout-subtotal on #/checkout shows \"$60.00\" before discount",
+    "order-total on #/checkout shows \"$64.80\" (subtotal + 8% tax, pre-discount)",
+    "discount on order-confirmation shows \"$6.00\" (10% of $60.00 subtotal)",
+    "final total on order-confirmation shows \"$58.80\" ($60.00 + $4.80 tax − $6.00 discount)"
+  ],
+  "setup": [
+    "login(page) with demo@shop.test / demo1234 via #/login",
+    "addToCartViaApi(page, \"p3\", 1) (Lumen Desk Lamp $45.00)",
+    "addToCartViaApi(page, \"p5\", 1) (Nomad Mug $15.00)",
+    "navigate to #/checkout and read checkout-subtotal / order-total pre-discount",
+    "type SAVE10 into discount-code, click place-order, wait for order-confirmation"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "assertions": [
+    "checkout-subtotal renders \"$60.00\" and checkout-tax renders \"$4.80\" before discount",
+    "order-total on #/checkout renders \"$64.80\" (pre-discount subtotal+tax)",
+    "order-confirmation discount renders \"$6.00\"",
+    "order-confirmation final total renders \"$58.80\""
+  ],
+  "setup": [
+    "login(page) as demo@shop.test / demo1234 via #/login",
+    "apiLogin(request) for token, then seedCart(request,[{productId:'p3',qty:1},{productId:'p5',qty:1}]) via POST /api/cart",
+    "goto #/checkout and type SAVE10 into discount-code",
+    "click place-order and wait for order-confirmation to be visible"
+  ]
+}

@@ -27,6 +27,17 @@ docs/                    plan, risk policy, progress, failure guide, seeded bug 
 
 ## Products
 - 6 products seeded in memory. Fields: `id,name,price,category,stock`.
+- Seeded catalogue (price is the unit price in dollars):
+
+| id | name | price | category | stock |
+|---|---|---|---|---|
+| p1 | Aurora Laptop | 1299.00 | laptops | 5 |
+| p2 | Trailback Backpack | 89.00 | accessories | 12 |
+| p3 | Lumen Desk Lamp | 45.00 | home | 20 |
+| p4 | Pebble Speaker | 19.99 | audio | 8 |
+| p5 | Nomad Mug | 15.00 | home | 40 |
+| p6 | Vertex Monitor | 349.50 | monitors | 0 |
+
 - `GET /api/products?q=` → `{items:[...]}`. `q` matches name, case-insensitive by default.
 - `GET /api/products/:id` → product or 404.
 
@@ -43,6 +54,7 @@ docs/                    plan, risk policy, progress, failure guide, seeded bug 
 - Discount code `SAVE10` = 10% of subtotal, capped at the subtotal.
 - Empty cart → 400 `{error:"cart empty"}`.
 - `GET /api/orders` → `{items:[...]}` for the logged-in user only, newest first.
+- In `#/checkout`, `checkout-subtotal`, `checkout-tax` and `order-total` show the cart before the discount is applied (`order-total` is subtotal + tax). The code in `discount-code` is applied when `place-order` is clicked, which replaces the page with `order-confirmation`; the discount and final total must be asserted there.
 
 ## UI (hash routes) and required `data-testid` hooks
 | Route | Element | test id |
@@ -51,6 +63,7 @@ docs/                    plan, risk policy, progress, failure guide, seeded bug 
 | `#/products` | search input / product card / add button / cart link | `search-input` / `product-card` / `add-to-cart` (one per card, with `data-product-id`) / `nav-cart` |
 | `#/cart` | row / qty input / remove button / subtotal / tax / total / checkout button | `cart-row` / `qty-input` / `remove-item` / `cart-subtotal` / `cart-tax` / `cart-total` / `checkout-button` |
 | `#/checkout` | total / place order button / confirmation | `order-total` / `place-order` / `order-confirmation` |
+| `#/checkout` | subtotal / tax / discount code input / error box | `checkout-subtotal` / `checkout-tax` / `discount-code` / `checkout-error` |
 | `#/orders` | order row | `order-row` |
 
 Visible text is acceptable for assertions; test ids are for selectors. Money renders as `$12.34`.

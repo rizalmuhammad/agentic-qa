@@ -1,0 +1,14 @@
+{
+  "assertions": [
+    "#/checkout shows order-total \"$112.32\" (pre-discount subtotal+tax)",
+    "order-confirmation is visible after clicking place-order",
+    "order-confirmation shows discount \"$10.40\"",
+    "order-confirmation shows final total \"$101.92\""
+  ],
+  "setup": [
+    "apiLogin(request) to get a bearer token",
+    "seedCart(request, [{productId:\"p2\",qty:1},{productId:\"p5\",qty:1}]) → subtotal $104.00, tax $8.32",
+    "login(page), goto #/checkout, type \"SAVE10\" into discount-code",
+    "click place-order and wait for order-confirmation"
+  ]
+}

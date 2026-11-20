@@ -13,13 +13,18 @@
  *
  * Usage:
  *   QA_LLM_KEY_FILE=/path/to/key node agents/orchestrator/run.js --case search-filter --runs 5
- *   node agents/orchestrator/run.js --all --runs 5
+ *   node agents/orchestrator/run.js --all --runs 5 --two-step --port 4110
+ *
+ * --two-step asks for a short JSON plan first and then writes the test from
+ * that plan, so a long case cannot lose its assertions in one truncated reply.
+ * Validation and scoring are identical in both modes.
  */
 
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { chat, MODEL } = require('./lib/model');
+const { fixtureAssertionProblems } = require('./lib/validate');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const GENERATED = path.join(ROOT, 'tests', 'generated');
@@ -73,8 +78,10 @@ Hard rules:
 - Output the JSON object as your first and only content. No explanation before or after it. \n- Keep the test body short: no comments longer than one line.\n- Shape {"path": "tests/generated/<slug>.spec.ts", "content": "<file body>"}.
 - The test title must contain the requirement id, for example "REQ-CAT-02 ...".
 - Assert exact values. No truthiness checks. No waitForTimeout. No test.skip. No force clicks. No test.only.
-- seedCart() signs in through the API and returns an API token; it does NOT sign the browser in. A UI test still needs login(page), and a cart seeded with seedCart's token is not the cart the browser shows.
+- Never assert a property of your own fixture arithmetic. Do not write expect() around a value you computed from setup, such as expect((subtotalCents * 8) % 100).not.toBe(0) or expect(computedTotal).toBeGreaterThan(0). Assert only what the app returns: the visible text, a response status, or a field from the response body (for example toHaveText('$48.60') or expect(body.total).toBe(48.6)).
+- seedCart() signs in through the API and returns an API token; it does NOT sign the browser in. A UI test still needs login(page), and a cart seeded with seedCart's token is not the cart the browser shows. For a UI test, use addToCartViaApi(page, productId, qty) after login(page).
 - Import helpers from '../fixtures' (the file is tests/generated/<slug>.spec.ts), and use the data-testid selectors from the contract.
+- Use only the routes, product ids, prices and test ids listed in the contract. Never invent a control, test id, product or price.
 - Never edit application code, configuration, or other tests.
 - If the requirement cannot be tested as written, output {"path": "", "content": "", "blocked": "<why>"}.
 
@@ -88,17 +95,61 @@ Assertion standard:
 ${readIfExists('docs/assertion-standard.md')}`;
 }
 
-function userPrompt(name, testCase, repairNote) {
+function userPrompt(name, testCase, repairNote, plan) {
+  const planBlock = plan
+    ? `\nPlan to follow exactly (assertions must prove these, setup must follow this order):\n${JSON.stringify(plan, null, 2)}`
+    : '';
   const base = `Requirement: ${testCase.requirement} - ${testCase.text}
 Case: ${name}
 Hint: ${testCase.hint}
-Helpers available: tests/fixtures.ts exports login(page), seedCart(request, items), apiLogin(request), expect, test.`;
+Helpers available: tests/fixtures.ts exports login(page), seedCart(request, items), apiLogin(request), addToCartViaApi(page, productId, qty), expect, test.${planBlock}`;
   if (!repairNote) return base;
   return `${base}
 
 Your previous output was rejected by the harness:
 ${repairNote}
 Return a corrected JSON object only.`;
+}
+
+function planPrompt(name, testCase) {
+  return `Requirement: ${testCase.requirement} - ${testCase.text}
+Case: ${name}
+Hint: ${testCase.hint}
+Helpers available: tests/fixtures.ts exports login(page), seedCart(request, items), apiLogin(request), addToCartViaApi(page, productId, qty), expect, test.`;
+}
+
+function planSystemPrompt() {
+  return `You are the Planner in an agentic QA team. Plan one Playwright test before it is written.
+Return JSON only, as short as possible:
+{"assertions":["one line per assertion: the exact value or state it will prove"],"setup":["one line per setup step"]}
+Rules:
+- 2-5 assertions. Each assertion names an exact value the app returns, such as "$48.60" or 48.6, not "the total is correct".
+- Assertions are about the app's observable output. Never plan an assertion about arithmetic or modulo on values the test computed from its own setup.
+- Setup lists the steps in order, including which helper (login, seedCart, apiLogin, addToCartViaApi) and which API calls or page routes.
+- seedCart signs in through the API with its own token; its cart is not the browser's cart. For a UI test, call login(page) and then addToCartViaApi(page, productId, qty). Use seedCart only for an API-level test that reuses the token it returns.
+- Use only the routes, products and data-testid values listed in the contract below. Never invent a control, test id, product or price.
+- The SAVE10 code is typed into the discount field and applied when the order is placed; there is no separate Apply button. Assert the discount and final total on order-confirmation after placing the order; order-total on #/checkout is the pre-discount total.
+- No test code, no prose outside the JSON object.
+
+Contract (routes, helpers and selectors):
+${readIfExists('docs/CONTRACT.md')}`;
+}
+
+async function makePlan(name, testCase) {
+  const reply = await chat(
+    [
+      { role: 'system', content: planSystemPrompt() },
+      { role: 'user', content: planPrompt(name, testCase) },
+    ],
+    { maxTokens: 1500 },
+  );
+  if (reply.finishReason === 'length') throw new Error('plan reply hit the token cap');
+  const plan = extractJson(reply.content);
+  const assertions = Array.isArray(plan.assertions) ? plan.assertions : null;
+  const setup = Array.isArray(plan.setup) ? plan.setup : null;
+  if (!assertions || assertions.length === 0) throw new Error('plan must contain a non-empty "assertions" array');
+  if (!setup) throw new Error('plan must contain a "setup" array');
+  return { plan: { assertions, setup }, usage: reply.usage, latencyMs: reply.latencyMs };
 }
 
 function extractJson(raw) {
@@ -127,6 +178,7 @@ function validate(proposal, testCase, name) {
   for (const rule of FORBIDDEN) {
     if (rule.pattern.test(content)) problems.push(rule.reason);
   }
+  problems.push(...fixtureAssertionProblems(content));
   if (/from\s+['"]\.\.\/\.\.\/app/.test(content)) problems.push('test imports application code');
   // Generated files live in tests/generated/, so fixtures are one level up.
   if (/from\s+['"]\.\/fixtures['"]/.test(content)) problems.push("import must be '../fixtures', not './fixtures' (file lives in tests/generated/)");
@@ -134,7 +186,7 @@ function validate(proposal, testCase, name) {
 }
 
 function runTest(filePath) {
-  const port = process.env.QA_PORT || process.env.PORT || '3100';
+  const port = String(arg('port', process.env.QA_PORT || process.env.PORT || '3100'));
   const started = Date.now();
   const result = spawnSync(
     'npx',
@@ -155,12 +207,13 @@ function runTest(filePath) {
   };
 }
 
-async function runOnce(name, testCase, runId) {
+async function runOnce(name, testCase, runId, options = {}) {
   const record = {
     runId,
     case: name,
     requirement: testCase.requirement,
     model: MODEL,
+    mode: options.twoStep ? 'two-step' : 'one-step',
     startedAt: new Date().toISOString(),
     attempts: 0,
     valid: false,
@@ -172,6 +225,25 @@ async function runOnce(name, testCase, runId) {
     file: null,
   };
 
+  let plan = null;
+  if (options.twoStep) {
+    try {
+      const planned = await makePlan(name, testCase);
+      plan = planned.plan;
+      record.plan = plan;
+      const planDir = path.join(RUN_DIR, 'plans');
+      fs.mkdirSync(planDir, { recursive: true });
+      const planName = `${runId}-${Date.now()}.json`;
+      fs.writeFileSync(path.join(planDir, planName), `${JSON.stringify(plan, null, 2)}\n`);
+      record.planFile = path.relative(ROOT, path.join(planDir, planName));
+      record.tokens += planned.usage.total_tokens || 0;
+      record.latencyMs += planned.latencyMs;
+    } catch (error) {
+      record.failure = `plan error: ${error.message}`;
+      return record;
+    }
+  }
+
   let repairNote = null;
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     record.attempts = attempt;
@@ -179,7 +251,7 @@ async function runOnce(name, testCase, runId) {
     try {
       reply = await chat([
         { role: 'system', content: systemPrompt() },
-        { role: 'user', content: userPrompt(name, testCase, repairNote) },
+        { role: 'user', content: userPrompt(name, testCase, repairNote, plan) },
       ]);
     } catch (error) {
       record.failure = `model error: ${error.message}`;
@@ -229,6 +301,7 @@ async function main() {
   const runs = Number(arg('runs', 1));
   const all = Boolean(arg('all', false));
   const single = arg('case');
+  const twoStep = Boolean(arg('two-step', false));
   const names = all ? Object.keys(CASES) : [single];
 
   if (!names[0] || !CASES[names[0]]) {
@@ -245,8 +318,8 @@ async function main() {
   for (const name of names) {
     for (let i = 0; i < runs; i += 1) {
       const runId = `${name}-${i + 1}`;
-      process.stderr.write(`running ${runId}\n`);
-      const record = await runOnce(name, CASES[name], runId);
+      process.stderr.write(`running ${runId}${twoStep ? ' (two-step)' : ''}\n`);
+      const record = await runOnce(name, CASES[name], runId, { twoStep });
       records.push(record);
       fs.appendFileSync(logFile, `${JSON.stringify(record)}\n`);
       process.stderr.write(
@@ -260,6 +333,7 @@ async function main() {
   const streak = longestStreak(records);
   const summary = {
     logFile: path.relative(ROOT, logFile),
+    mode: twoStep ? 'two-step' : 'one-step',
     runs: total,
     correct,
     correctRate: total ? Number((correct / total).toFixed(3)) : 0,

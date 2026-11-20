@@ -53,7 +53,8 @@ async function planner(caseName, testCase) {
       role: 'system',
       content: `You are the Planner in an agentic QA team. Return JSON only:
 {"areas":["..."],"tests":[{"requirement":"REQ-...","what":"one line"}],"risk":"low|medium|high","reason":"one line"}
-Rules: one requirement per planned test; if the requirement is ambiguous, add "questions":[...] and set tests to []; never write test code.`,
+Rules: one requirement per planned test; if the requirement is ambiguous, add "questions":[...] and set tests to []; never write test code.
+Never plan an assertion about arithmetic or modulo on the test's own fixture data (for example expect((subtotalCents * 8) % 100).not.toBe(0)); plan assertions about the app's observable output, such as the exact text the page shows or a field the API returns.`,
     },
     {
       role: 'user',
@@ -69,6 +70,7 @@ async function generator(testCase, plan, repairNote) {
   const system = `You are the Generator in an agentic QA team. Write one Playwright test.
 Return JSON only: {"path":"tests/generated/<slug>.spec.ts","content":"<file>"}
 Rules: import from '../fixtures'; the title must contain ${testCase.requirement}; exact assertions; no waitForTimeout, skip, only or force; never edit application code.
+Never assert a property of your own fixture arithmetic: no expect() around a value you computed from setup, such as expect((subtotalCents * 8) % 100).not.toBe(0) or expect(computedTotal).toBeGreaterThan(0). Assert only what the app returns: visible text, a response status, or a response body field (for example toHaveText('$48.60') or expect(body.total).toBe(48.6)).
 Style reference:
 ${readIfExists('tests/catalog.spec.ts')}
 Selectors:

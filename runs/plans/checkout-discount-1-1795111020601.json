@@ -1,0 +1,15 @@
+{
+  "assertions": [
+    "checkout-subtotal shows \"$104.00\"",
+    "order-confirmation text contains \"$10.40\"",
+    "order-total shows \"$101.92\"",
+    "#/orders has an order-row containing \"$101.92\""
+  ],
+  "setup": [
+    "apiLogin(request) to get token",
+    "seedCart(request, [{productId:'p2',qty:1},{productId:'p5',qty:1}])",
+    "login(page), open #/checkout",
+    "type \"SAVE10\" into discount-code",
+    "click place-order"
+  ]
+}

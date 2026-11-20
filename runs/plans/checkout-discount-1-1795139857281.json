@@ -1,0 +1,14 @@
+{
+  "assertions": [
+    "order-confirmation shows discount of $17.90 (10% of the $179.00 subtotal)",
+    "order-confirmation shows final total $175.42",
+    "order-confirmation shows subtotal $179.00",
+    "order-confirmation shows tax $14.32"
+  ],
+  "setup": [
+    "login(page) to authenticate the browser session",
+    "addToCartViaApi(page, 'p3', 2) then addToCartViaApi(page, 'p2', 1) to seed a two-item cart",
+    "goto #/checkout; verify pre-discount order-total shows $193.32 (subtotal+tax)",
+    "fill discount-code with SAVE10, click place-order, wait for order-confirmation"
+  ]
+}

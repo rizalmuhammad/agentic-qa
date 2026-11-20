@@ -1,0 +1,14 @@
+{
+  "assertions": [
+    "#/checkout order-total shows $112.32 ($104.00 subtotal + $8.32 tax) before discount",
+    "order-confirmation shows discount $10.40 (10% of $104.00 subtotal)",
+    "order-confirmation shows final total $101.92 ($104.00 + $8.32 - $10.40)"
+  ],
+  "setup": [
+    "login(page) on #/login as demo@shop.test / demo1234",
+    "addToCartViaApi(page, \"p2\", 1) then addToCartViaApi(page, \"p5\", 1)",
+    "goto #/checkout and confirm order-confirmation is absent",
+    "fill discount-code with SAVE10 and click place-order",
+    "wait for order-confirmation to replace the page"
+  ]
+}

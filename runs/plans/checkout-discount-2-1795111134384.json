@@ -1,0 +1,16 @@
+{
+  "assertions": [
+    "checkout-subtotal renders \"$134.00\"",
+    "checkout-tax renders \"$10.72\"",
+    "order-confirmation shows the SAVE10 discount \"$13.40\"",
+    "order-confirmation shows total \"$131.32\"",
+    "#/orders contains an order-row including \"$131.32\""
+  ],
+  "setup": [
+    "apiLogin(request) to get a bearer token",
+    "seedCart(request, [{productId:'p2',qty:1},{productId:'p5',qty:3}])",
+    "login(page), then open #/checkout",
+    "type SAVE10 into data-testid=discount-code",
+    "click data-testid=place-order and read confirmation, then open #/orders"
+  ]
+}
