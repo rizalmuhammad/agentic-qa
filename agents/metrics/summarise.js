@@ -68,9 +68,19 @@ function phase4() {
 }
 
 function phase5() {
-  const file = path.join(RUNS, 'phase5', 'executed.json');
+  const full30 = path.join(RUNS, 'phase5', 'executed-30.json');
+  const file = fs.existsSync(full30) ? full30 : path.join(RUNS, 'phase5', 'executed.json');
   if (!fs.existsSync(file)) return null;
   const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (data.summary) {
+    return {
+      executed: data.summary.executed,
+      caught: data.summary.executed - data.summary.missedDefects,
+      fullS: null,
+      shardWallS: null,
+      wallS: Math.round(data.summary.wallSeconds),
+    };
+  }
   return {
     executed: (data.executed || []).length,
     caught: (data.executed || []).filter((e) => e.caught).length,
@@ -101,7 +111,7 @@ function build() {
     `| 4 - Reviewer | ${p4 ? p4.cases : '—'} | ${p4 ? pct(p4.agrees, p4.cases) : '—'} | — | — | ${p4 ? `${p4.escalated} escalated` : '—'} |`,
   );
   lines.push(
-    `| 5 - Release | ${p5 ? p5.executed : '—'} | ${p5 ? pct(p5.caught, p5.executed) : '—'} | — | ${p5 ? `${p5.fullS}s full / ${p5.shardWallS}s sharded` : '—'} | executed change sets |`,
+    `| 5 - Release | ${p5 ? p5.executed : '—'} | ${p5 ? pct(p5.caught, p5.executed) : '—'} | — | ${p5 ? (p5.fullS !== null && p5.fullS !== undefined ? `${p5.fullS}s full / ${p5.shardWallS}s sharded` : `${p5.wallS}s for ${p5.executed} sets`) : '—'} | executed change sets |`,
   );
   lines.push('');
   lines.push('## What these numbers do not say');
