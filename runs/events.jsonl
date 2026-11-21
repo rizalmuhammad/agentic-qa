@@ -1,0 +1,3 @@
+{"ts":"2026-11-21T16:31:28.304Z","flow":"team","task":"cart-negqty","stage":"planner","status":"ok","artifact":"medium"}
+{"ts":"2026-11-21T16:34:40.174Z","flow":"team","task":"cart-negqty","stage":"generator","status":"ok","artifact":"tests/generated/req-cart-04-qty-zero-rejected.spec.ts"}
+{"ts":"2026-11-21T16:34:47.377Z","flow":"team","task":"cart-negqty","stage":"executor","status":"failed","artifact":null}

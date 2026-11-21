@@ -23,6 +23,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 const { chat, MODEL } = require('../orchestrator/lib/model');
 const { extractJson, validateProposal } = require('../orchestrator/lib/validate');
+const events = require('../tools/events');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const OUT = path.join(ROOT, 'runs', 'phase3');
@@ -150,6 +151,7 @@ async function runCase(name, testCase, port, index) {
   try {
     const { plan, usage, latencyMs } = await planner(name, testCase);
     record.stages.planner = { ok: true, plan, tokens: usage.total_tokens, latencyMs };
+    events.append({ flow: 'team', task: name, stage: 'planner', status: 'ok', artifact: plan.risk });
   } catch (error) {
     record.stages.planner = { ok: false, error: error.message };
     record.missed = true;
@@ -166,6 +168,7 @@ async function runCase(name, testCase, port, index) {
     fs.mkdirSync(path.join(ROOT, 'tests', 'generated'), { recursive: true });
     fs.writeFileSync(path.join(ROOT, file), check.content);
     record.stages.generator = { ok: true, file };
+    events.append({ flow: 'team', task: name, stage: 'generator', status: 'ok', artifact: file });
   } catch (error) {
     record.stages.generator = { ok: false, error: String(error.message).slice(0, 300) };
     record.missed = true;
@@ -183,6 +186,7 @@ async function runCase(name, testCase, port, index) {
   };
 
   // Valid test = passes clean and fails at least once with the bug on.
+  events.append({ flow: 'team', task: name, stage: 'executor', status: clean.passed ? 'ok' : 'failed', artifact: record.stages.executor.traceHint || null });
   const validTest = clean.passed && bugged.some((r) => !r.passed);
   record.detected = validTest;
   record.missed = !validTest;
@@ -194,6 +198,7 @@ async function runCase(name, testCase, port, index) {
   try {
     const { proposal } = await healer(testCase, failing.output, readIfExists(file));
     record.stages.healer = { ok: true, proposal };
+    events.append({ flow: 'team', task: name, stage: 'healer', status: proposal.diagnosis || 'unknown', artifact: null });
   } catch (error) {
     record.stages.healer = { ok: false, error: String(error.message).slice(0, 300) };
   }
@@ -206,6 +211,7 @@ async function runCase(name, testCase, port, index) {
       failing.output,
     );
     record.stages.analysis = { ok: true, proposal };
+    events.append({ flow: 'team', task: name, stage: 'analysis', status: proposal.classification || 'unknown', artifact: null });
     record.misclassified = proposal.classification === 'flaky';
   } catch (error) {
     record.stages.analysis = { ok: false, error: String(error.message).slice(0, 300) };
